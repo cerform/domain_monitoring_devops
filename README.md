@@ -10,3 +10,30 @@ In repository's settings, please enable disscussions:<br>
 4.Scroll down to the Features section.<br>
 5.Check the box ☑ Discussions.<br>
 6.Click Save changes if needed.<br>
+
+-------------------
+-static/
+-- main.html
+-- main.css
+-- main.js
+
+-- login.html
+-- login.css
+-- login.js
+
+-- register.html
+-- register.css
+-- register.js
+
+-- dashboard.html
+-- dashboard.css
+-- dashboard.js
+
+- app.py # flask routes
+- UserManagementModule.py
+- DomainManagementEngine.py
+- MonitoringSystem.py
+
+- UsersData/
+-- users.json
+-- <username>_domains.json
