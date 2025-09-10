@@ -1,8 +1,6 @@
 # domain_monitoring_devops
 task for devops course. domains monitoring system
 
-## discord server link https://discord.gg/YbhCywSC
-
 In repository's settings, please enable disscussions:<br>
 1.Go to your repository on GitHub.<br>
 2.Click on the ⚙️ Settings tab (top menu).<br>
