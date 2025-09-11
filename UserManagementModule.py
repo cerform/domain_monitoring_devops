@@ -42,7 +42,7 @@ class UserManager:
     def username_validity(self, users_json, username):
         try:
             if f"{username}" in users_json:
-                return False, "Username already Exists."
+                return False, "Username already exists or invalid."
             return True, "Username is valid."
         except Exception as e:
             return "FAILED","Error: Unable to validate username.", e 
