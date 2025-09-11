@@ -39,14 +39,14 @@ def register():
         if not username or not password:
             return jsonify({"ok": False, "error": "Username and password required"}), 400
 
-        if not UM.is_username_available(username):
+        if not UM.username_validity(username):
             return jsonify({"ok": False, "error": "Username already exists"}), 409
 
-        ok, reason = UM.is_password_valid(password)
+        ok, reason = UM.register_page_password_validity(password)
         if not ok:
             return jsonify({"ok": False, "error": f"Invalid password: {reason}"}), 400
 
-        UM.add_user(username, password)
+        UM.write_user_to_json(username, password)
         UM.ensure_user_domain_file(username)
 
         return jsonify({"ok": True, "message": "User created"}), 201
