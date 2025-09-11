@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function registerUser(name, pass, pass_conf) {
         content = {
             method: 'POST',
-            header: {
+            headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 password_confirmation: pass_conf
             })
         };
-        const response = await fetch(`/regsiter`, content);
+        const response = await fetch(`/register`, content);
         const data = await response.json();
         if (data[0] == "FAILED"){
             ErrorMessage.textContent = `${data[1]}`
