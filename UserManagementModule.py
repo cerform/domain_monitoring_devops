@@ -3,13 +3,13 @@ import re
 
 class UserManager:
     
-    def register_page_add_user(self, username, password):
+    def register_page_add_user(self, username, password, password_confirmation):
         try:
             with open("./UsersData/users.json") as f:
                 users = json.load(f)
             if not self.username_validity(users, username):
                 return "FAILED", "Username is invalid!"
-            password_validity = self.register_page_password_validity(password)
+            password_validity = self.register_page_password_validity(password, password_confirmation)
             if password_validity[0] == "FAILED" or not password_validity[0]:
                 return "FAILED", password_validity[1]
             write_user_status = self.write_user_to_json(users, username, password)
@@ -19,8 +19,10 @@ class UserManager:
         except Exception as e:
             return "FAILED","Error: Unable to register user.", e
 
-    def register_page_password_validity(self, password):
+    def register_page_password_validity(self, password, password_confirmation):
         try:
+            if password != password_confirmation:
+                return False, "Password and Password Confirmation are not the same."
             password_str = f"{password}"
             if len(password_str) < 8 or len(password_str) > 12:
                 return False, "Password is not between 8 to 12 characters."
