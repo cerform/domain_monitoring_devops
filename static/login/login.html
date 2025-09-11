@@ -5,16 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="/static/login/login.css">
-    <script src="/static/login/login.js"></script>
+    <script src="/static/login/login.js" defer></script>
 </head>
 <body>
     <h1 class="title">Domain Monitoring System</h1>
     <span class="subtitle">Please sign in to your account</span>
         <div class="container">
-            <form action="#" method="post">
+            <form action="/login" method="post" id= "login-form">
+                <span id="field-name">Username</span>
                 <input type="text" id="username" name="username" placeholder="Username">
+                <span id="field-name">Password</span>
                 <input type="password" id="password" name="password" placeholder="Password">
                 <input type="submit" value="Login" class="buttons">
+                <span id= "no-account">Don't have an account?</span>
+                <input type="submit" id="register" value="Register" class="buttons">
             </form>
         </div>
 </body>
