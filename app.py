@@ -1,11 +1,26 @@
 from flask import Flask, request, jsonify, session, redirect
 import os
 from UserManagementModule import UserManager as UM
+import MonitoringSystem as ME
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-secret-change-me")
 
 
+# ---------------------------
+# Helpers (no error handlers here)
+# ---------------------------
+def _get_payload():
+    """Accept JSON or HTML form-data; always return a dict."""
+    data = request.get_json(silent=True)
+    if data is not None:
+        return data
+    return (request.form or {}).to_dict()
+
+
+# ---------------------------
+# UI routes
+# ---------------------------
 @app.route('/', methods=['GET'])
 def main_page():
     return app.send_static_file('main/main.html')
@@ -16,9 +31,9 @@ def login():
     if request.method == 'GET':
         return app.send_static_file('login/login.html')
     else:
-        loginInfo = request.json or {}
-        username = (loginInfo.get("username") or "").strip()
-        password = loginInfo.get("password") or ""
+        data = _get_payload()
+        username = (data.get("username") or "").strip()
+        password = data.get("password") or ""
 
         if not UM.validate_login(username, password):
             return jsonify({"ok": False, "error": "Invalid username or password"}), 401
@@ -32,9 +47,9 @@ def register():
     if request.method == 'GET':
         return app.send_static_file('register/register.html')
     else:
-        registerInfo = request.json or {}
-        username = (registerInfo.get("username") or "").strip()
-        password = registerInfo.get("password") or ""
+        data = _get_payload()
+        username = (data.get("username") or "").strip()
+        password = data.get("password") or ""
 
         if not username or not password:
             return jsonify({"ok": False, "error": "Username and password required"}), 400
@@ -59,13 +74,16 @@ def dashboard():
     return app.send_static_file('dashboard/dashboard.html')
 
 
+# ---------------------------
+# Domains
+# ---------------------------
 @app.route('/add_domain', methods=['POST'])
 def add_domain():
     if "username" not in session:
         return jsonify({"ok": False, "error": "Unauthorized"}), 401
 
-    domain_info = request.json or {}
-    raw_domain = (domain_info.get("domain") or "").strip()
+    data = _get_payload()
+    raw_domain = (data.get("domain") or "").strip()
 
     ok, norm_domain, reason = UM.validate_domain(raw_domain)
     if not ok:
@@ -78,6 +96,60 @@ def add_domain():
     return jsonify({"ok": True, "domain": norm_domain}), 201
 
 
+@app.route('/bulk_domains', methods=['POST'])
+def bulk_domains():
+    if "username" not in session:
+        return jsonify({"ok": False, "error": "Unauthorized"}), 401
+
+    f = request.files.get('file')
+    if not f:
+        return jsonify({"ok": False, "error": "File is required"}), 400
+
+    filename = (f.filename or "").lower()
+    if not filename.endswith(".txt"):
+        return jsonify({"ok": False, "error": "Only .txt files are allowed"}), 400
+
+    added, duplicates, invalid = [], [], []
+    for raw in f.read().decode('utf-8', errors='ignore').splitlines():
+        raw = raw.strip()
+        if not raw:
+            continue
+        ok, domain, reason = UM.validate_domain(raw)
+        if not ok:
+            invalid.append({"input": raw, "reason": reason})
+            continue
+        saved = UM.add_domain(session["username"], domain)
+        (added if saved else duplicates).append(domain)
+
+    return jsonify({"ok": True, "summary": {
+        "added": added,
+        "duplicates": duplicates,
+        "invalid": invalid
+    }}), 200
+
+
+@app.route('/my_domains', methods=['GET'])
+def my_domains():
+    if "username" not in session:
+        return jsonify({"ok": False, "error": "Unauthorized"}), 401
+    data = UM.load_user_domains(session["username"])
+    return jsonify({"ok": True, "data": data}), 200
+
+
+# ---------------------------
+# Monitoring
+# ---------------------------
+@app.route('/refresh_checks', methods=['POST'])
+def refresh_checks():
+    if "username" not in session:
+        return jsonify({"ok": False, "error": "Unauthorized"}), 401
+    ME.run_user_check_async(session["username"])
+    return jsonify({"ok": True, "message": "Checks started"}), 202
+
+
+# ---------------------------
+# Static passthrough (top-level files)
+# ---------------------------
 @app.route('/<filename>', methods=['GET'])
 def static_files(filename):
     return app.send_static_file(filename)
