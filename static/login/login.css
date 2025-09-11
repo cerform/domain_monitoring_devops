@@ -45,7 +45,7 @@ form {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 1.2rem;
+    gap: 0.5rem;
 }
 
 
@@ -93,4 +93,27 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #81A1C1;
     box-shadow: 0 4px 16px 0 rgba(94, 129, 172, 0.15);
+}
+
+#field-name {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    color: #2E3440;
+}
+
+#register {
+    background-color: transparent;
+    color:#2E3440;
+    border: 2px solid #5E81AC;
+}
+#register:hover {
+    background-color: #D8DEE9;
+    box-shadow: 0 4px 16px 0 rgba(94, 129, 172, 0.15);
+}
+
+#no-account {
+    display: block;
+    text-align: left;
+    font-size: smaller;
 }
