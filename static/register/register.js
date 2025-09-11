@@ -41,12 +41,12 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         const response = await fetch(`/register`, content);
         const data = await response.json();
-        if (data[0] == "FAILED"){
-            ErrorMessage.textContent = `${data[1]}`
+        if ("error" in data){
+            ErrorMessage.textContent = `${data["error"]}`
             ErrorMessage.style.display = 'block'
         }
         else {
-            SuccessMessage.textContent = 'User Registration Succeeded!'
+            SuccessMessage.textContent = `${data["message"]}`
             SuccessMessage.style.display = 'block'
             setTimeout(function() { window.location.href = "/login"; }, 2000); 
         }

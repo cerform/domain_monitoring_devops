@@ -7,17 +7,20 @@ class UserManager:
         try:
             with open("./UsersData/users.json") as f:
                 users = json.load(f)
-            if not self.username_validity(users, username):
-                return "FAILED", "Username is invalid!"
+            usr_valid = self.username_validity(users, username)
+            if usr_valid == "FAILED" or not usr_valid[0]:
+                return {"error" : usr_valid[1]}
             password_validity = self.register_page_password_validity(password, password_confirmation)
             if password_validity[0] == "FAILED" or not password_validity[0]:
-                return "FAILED", password_validity[1]
+                return {"error": password_validity[1]}
             write_user_status = self.write_user_to_json(users, username, password)
             if write_user_status[0] == "FAILED":
-                return "FAILED", write_user_status[1]
-            return "SUCCESS", "User registered Successfully!"
+                return {"error": write_user_status[1]}
+            with open(f"./UsersData/{username}_domains.json", "w") as f:
+                json.dump({}, f, indent=4)
+            return {"message" : "Registered Successfully"}
         except Exception as e:
-            return "FAILED","Error: Unable to register user.", e
+            return {"error": "Unable to register user.", 'exception': e}
 
     def register_page_password_validity(self, password, password_confirmation):
         try:
@@ -41,8 +44,10 @@ class UserManager:
 
     def username_validity(self, users_json, username):
         try:
+            if username == "":
+                return False,  "Username invalid."
             if f"{username}" in users_json:
-                return False, "Username already exists or invalid."
+                return False, "Username already taken"
             return True, "Username is valid."
         except Exception as e:
             return "FAILED","Error: Unable to validate username.", e 

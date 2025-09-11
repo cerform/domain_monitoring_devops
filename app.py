@@ -32,24 +32,15 @@ def register():
     if request.method == 'GET':
         return app.send_static_file('register/register.html')
     else:
-        registerInfo = request.json or {}
-        username = (registerInfo.get("username") or "").strip()
-        password = registerInfo.get("password") or ""
-
-        if not username or not password:
-            return jsonify({"ok": False, "error": "Username and password required"}), 400
-
-        if not UM.username_validity(username):
-            return jsonify({"ok": False, "error": "Username already exists"}), 409
-
-        ok, reason = UM.register_page_password_validity(password)
-        if not ok:
-            return jsonify({"ok": False, "error": f"Invalid password: {reason}"}), 400
-
-        UM.write_user_to_json(username, password)
-        UM.ensure_user_domain_file(username)
-
-        return jsonify({"ok": True, "message": "User created"}), 201
+        try:
+            registerInfo = request.json or {}
+            username = (registerInfo.get("username") or "").strip()
+            password = registerInfo.get("password") or ""
+            password_confirmation = registerInfo.get("password_confirmation")
+            userManager = UM()
+            return jsonify(userManager.register_page_add_user(username, password, password_confirmation)), 201
+        except Exception as e:
+            return jsonify({"error": f"User could not be registered: {str(e)}"}), 400
 
 
 @app.route('/dashboard', methods=['GET'])
