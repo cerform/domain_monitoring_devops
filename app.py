@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, session, redirect
 import os
-import UserManagementModule as UM
+from UserManagementModule import UserManager as UM
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-secret-change-me")
@@ -20,7 +20,7 @@ def login():
         username = (loginInfo.get("username") or "").strip()
         password = loginInfo.get("password") or ""
 
-        if not UM.verify_credentials(username, password):
+        if not UM.validate_login(username, password):
             return jsonify({"ok": False, "error": "Invalid username or password"}), 401
 
         session["username"] = username
