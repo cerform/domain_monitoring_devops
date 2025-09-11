@@ -61,6 +61,14 @@ form {
     color: #2E3440;
 }
 
+#error-message {
+    color: red;
+}
+
+#success-message {
+    color: green;
+}
+
 input::placeholder {
     color: #A3A9B8;
     opacity: 1;
