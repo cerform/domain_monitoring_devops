@@ -8,7 +8,7 @@ def setup_logger(name: str):
 
     logger.handlers.clear()
 
-    # Ensure "logs" directory exists
+    # Ensure "logs" folder exists
     log_dir = "logs"
     os.makedirs(log_dir, exist_ok=True)
 
