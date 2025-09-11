@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('login-form');
+    const form = document.querySelector('form#login-form');
     const username = document.querySelector('#username');
     const password = document.querySelector('#password');
 
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     async function sendLogin(username, password) {
-        const message = { username, password };
+        const message = { "username": username, "password": password };
         await fetch('/login', {
             method: 'POST',
             headers: {
