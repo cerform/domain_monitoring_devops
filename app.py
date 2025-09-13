@@ -2,9 +2,12 @@ from flask import Flask, request, jsonify, session, redirect
 import os
 from UserManagementModule import UserManager as UM
 import MonitoringSystem as ME
+import logger
 
+logger = logger.setup_logger("app")
+UM=UM()
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-secret-change-me")
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "group2_devops_project")
 
 
 # ---------------------------
@@ -29,17 +32,21 @@ def main_page():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
+        if "username" in session:
+            return redirect("/dashboard")
         return app.send_static_file('login/login.html')
     else:
         data = _get_payload()
         username = (data.get("username") or "").strip()
         password = data.get("password") or ""
 
-        if not UM.validate_login(username, password):
+        if not UM.validate_login(username,password):
+            logger.warning(f"Login failed: username={username}")
             return jsonify({"ok": False, "error": "Invalid username or password"}), 401
 
-        session["username"] = username
-        return jsonify({"ok": True, "message": "Login successful", "username": username}), 200
+    session["username"] = username
+    logger.info(f"Login successful: username={username}")
+    return jsonify({"ok": True, "message": "Login successful", "username": username}), 200
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -72,6 +79,11 @@ def dashboard():
     if "username" not in session:
         return redirect("/login")
     return app.send_static_file('dashboard/dashboard.html')
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.pop("username", None)
+    return redirect("/login")
 
 
 # ---------------------------
