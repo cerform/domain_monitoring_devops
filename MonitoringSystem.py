@@ -12,7 +12,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 def check_status(domain):
     try:    
         response = requests.get(domain, timeout=5)
-        print("status code is:", response.status_code)
+        print("Status Code is:", response.status_code)
     except  requests.exceptions.RequestException as e:
             print("Error:", e)
 
@@ -30,12 +30,12 @@ def check_ssl(domain):
         expire_date = datetime.strptime(expired_str, "%b %d %H:%M:%S %Y %Z")
 
         if expire_date > datetime.now():
-            print(f"SSL for {domain} is VALID until {expire_date}")
+            print(f"SSL for {domain} is VALID till {expire_date}")
         else:
-            print(f"SSL for {domain} is EXPIRED on {expire_date}")
+            print(f"SSL for {domain} will EXPIRED on {expire_date}")
 
     except Exception as e:
-            print(f"there is ERROR checking SSL for {domain}: {e}")
+            print(f"There is an ERROR checking SSL for {domain}: {e}")
 
 check_ssl("google.com")
 
