@@ -1,6 +1,8 @@
 import json
 import re
+import logger
 
+logger = logger.setup_logger("app")
 class UserManager:
     
     def register_page_add_user(self, username, password, password_confirmation):
@@ -73,5 +75,7 @@ class UserManager:
         with open('./userdata/users.json', 'r') as f:
             users = json.load(f)
         if username in users and users[username] == password:
+            logger.info(f"Login successful: username={username}")
             return True
+        logger.warning(f"Login failed: username={username}")
         return False

@@ -39,15 +39,10 @@ def login():
         data = _get_payload()
         username = (data.get("username") or "").strip()
         password = data.get("password") or ""
-
-        if not UM.validate_login(username,password):
-            logger.warning(f"Login failed: username={username}")
-            return jsonify({"ok": False, "error": "Invalid username or password"}), 401
-
-    session["username"] = username
-    logger.info(f"Login successful: username={username}")
-    return jsonify({"ok": True, "message": "Login successful", "username": username}), 200
-
+        if UM.validate_login(username,password):
+            session["username"] = username
+            return jsonify({"ok": True, "message": "Login successful", "username": username}), 200
+        return jsonify({"ok": False, "error": "Invalid username or password"}), 401
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -84,6 +79,12 @@ def dashboard():
 def logout():
     session.pop("username", None)
     return redirect("/login")
+
+@app.route('/get_username', methods=['GET'])
+def get_username():
+    if "username" not in session:
+        return {"error": "not logged in"}, 401
+    return {"username": session["username"]}
 
 
 # ---------------------------
