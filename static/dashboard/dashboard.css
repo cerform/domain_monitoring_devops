@@ -43,8 +43,9 @@ body {
 /* =========================
    Greeting & Controls
    ========================= */
-.greeting {
+#greeting {
   text-align: center;
+  color: #4C566A;
   font-size: 1.1rem;
   font-weight: 500;
   margin: 1rem 0;
