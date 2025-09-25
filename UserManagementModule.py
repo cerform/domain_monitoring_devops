@@ -1,11 +1,13 @@
 import json
 import re
+import logger
 
+logger = logger.setup_logger("app")
 class UserManager:
     
     def register_page_add_user(self, username, password, password_confirmation):
         try:
-            with open("./UsersData/users.json") as f:
+            with open("./userdata/users.json") as f:
                 users = json.load(f)
             usr_valid = self.username_validity(users, username)
             if usr_valid == "FAILED" or not usr_valid[0]:
@@ -63,19 +65,22 @@ class UserManager:
             return "FAILED", "Error: Unable to write user to file.", e 
 
 
+
     def register_user(self, username, password): ## Add user to json file
-        with open('/userdata/users.json', 'r') as f:
+        with open('./userdata/users.json', 'r') as f:
             users = json.load(f)
         if username in users:
             return False  # User already exists
         users[username] = password
-        with open('/userdata/users.json', 'w') as f:
+        with open('./userdata/users.json', 'w') as f:
             json.dump(users, f)
         return True
 
     def validate_login(self, username, password):
-        with open('/userdata/users.json', 'r') as f:
+        with open('./userdata/users.json', 'r') as f:
             users = json.load(f)
         if username in users and users[username] == password:
+            logger.info(f"Login successful: username={username}")
             return True
+        logger.warning(f"Login failed: username={username}")
         return False
