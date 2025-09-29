@@ -95,11 +95,11 @@ def add_domain():
     data = _get_payload()
     raw_domain = (data.get("domain") or "").strip()
 
-    ok, norm_domain, reason = user_manager.validate_domain(raw_domain)
+    ok, norm_domain, reason = domain_engine.validate_domain(raw_domain)
     if not ok:
         return jsonify({"ok": False, "error": f"Invalid domain: {reason}"}), 400
 
-    saved = user_manager.add_domain(session["username"], norm_domain)
+    saved = domain_engine.add_domain(session["username"], norm_domain)
     if not saved:
         return jsonify({"ok": False, "error": "Domain already exists"}), 409
 
@@ -124,14 +124,14 @@ def bulk_domains():
         raw = raw.strip()
         if not raw:
             continue
-        ok, domain, reason = user_manager.validate_domain(raw)
+        ok, domain, reason = domain_engine.validate_domain(raw)
         if not ok:
             invalid.append({"input": raw, "reason": reason})
             continue
-        saved = user_manager.add_domain(session["username"], domain)
+        saved = domain_engine.add_domain(session["username"], domain)
         (added if saved else duplicates).append(domain)
 
-    return jsonify({"ok": True, "suser_managermary": {
+    return jsonify({"ok": True, "summary": {
         "added": added,
         "duplicates": duplicates,
         "invalid": invalid
@@ -142,7 +142,7 @@ def bulk_domains():
 def my_domains():
     if "username" not in session:
         return jsonify({"ok": False, "error": "Unauthorized"}), 401
-    data = user_manager.load_user_domains(session["username"])
+    data = domain_engine.list_domains(session["username"])
     return jsonify({"ok": True, "data": data}), 200
 
 
