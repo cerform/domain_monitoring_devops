@@ -43,7 +43,7 @@ def login():
         data = _get_payload()
         username = (data.get("username") or "").strip()
         password = data.get("password") or ""
-        if UM.validate_login(username,password):
+        if user_manager.validate_login(username,password):
             session["username"] = username
             return jsonify({"ok": True, "message": "Login successful", "username": username}), 200
         return jsonify({"ok": False, "error": "Invalid username or password"}), 401
@@ -95,11 +95,11 @@ def add_domain():
     data = _get_payload()
     raw_domain = (data.get("domain") or "").strip()
 
-    ok, norm_domain, reason = UM.validate_domain(raw_domain)
+    ok, norm_domain, reason = user_manager.validate_domain(raw_domain)
     if not ok:
         return jsonify({"ok": False, "error": f"Invalid domain: {reason}"}), 400
 
-    saved = UM.add_domain(session["username"], norm_domain)
+    saved = user_manager.add_domain(session["username"], norm_domain)
     if not saved:
         return jsonify({"ok": False, "error": "Domain already exists"}), 409
 
@@ -124,14 +124,14 @@ def bulk_domains():
         raw = raw.strip()
         if not raw:
             continue
-        ok, domain, reason = UM.validate_domain(raw)
+        ok, domain, reason = user_manager.validate_domain(raw)
         if not ok:
             invalid.append({"input": raw, "reason": reason})
             continue
-        saved = UM.add_domain(session["username"], domain)
+        saved = user_manager.add_domain(session["username"], domain)
         (added if saved else duplicates).append(domain)
 
-    return jsonify({"ok": True, "summary": {
+    return jsonify({"ok": True, "suser_managermary": {
         "added": added,
         "duplicates": duplicates,
         "invalid": invalid
@@ -142,7 +142,7 @@ def bulk_domains():
 def my_domains():
     if "username" not in session:
         return jsonify({"ok": False, "error": "Unauthorized"}), 401
-    data = UM.load_user_domains(session["username"])
+    data = user_manager.load_user_domains(session["username"])
     return jsonify({"ok": True, "data": data}), 200
 
 
