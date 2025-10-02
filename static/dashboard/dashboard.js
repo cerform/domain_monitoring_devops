@@ -20,12 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // =======================
   // Global Elements
   // =======================
-  fetch('/get_username', { credentials: 'same-origin' })
-    .then(res => res.json())
-    .then(data => {
-      const username = data.username;
 
-  const greeting = document.getElementById("greeting");
   const addDomainModal = document.getElementById("addDomainModal");
   const openAddDomainBtn = document.getElementById("openAddDomain");
   const addDomainForm = document.getElementById("addDomainForm");
@@ -46,12 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let domainsToDelete = [];
 
   const scanNowBtn = document.getElementById("scanNowBtn");
-  // =======================
-  // Initialize Greeting
-  // =======================
-  if (greeting && username) {
-    greeting.textContent = `Hello ${username}!`;
-  }
+
   // =======================
   // Add Domain Modal
   // =======================

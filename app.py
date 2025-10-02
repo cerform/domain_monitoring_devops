@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session, redirect
+from flask import Flask, request, jsonify, session, redirect, render_template
 import os
 from UserManagementModule import UserManager as UM
 from DomainManagementEngine import DomainManagementEngine as DME
@@ -70,7 +70,18 @@ def register():
 def dashboard():
     if "username" not in session:
         return redirect("/login")
-    return app.send_static_file('dashboard/dashboard.html')
+    # ---------------------------
+    # !!!!!!!Example domains data; replace with real data retrieval logic!!!!!!!!
+    # ---------------------------
+    domains=[
+    {
+        "domain": "example.com",
+        "status": "Live",
+        "ssl_expiration": "2025-12-31",
+        "ssl_issuer": "Example Certificate Authority"
+    }
+]
+    return render_template('dashboard.html', username=session['username'], domains=domains)
 
 @app.route('/logout', methods=['GET'])
 def logout():
