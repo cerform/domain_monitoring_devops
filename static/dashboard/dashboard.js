@@ -219,4 +219,3 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.target.classList.contains("modal")) closeModal(e.target);
   });
 });
-});
