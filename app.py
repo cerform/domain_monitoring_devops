@@ -30,6 +30,8 @@ def _get_payload():
 # ---------------------------
 @app.route('/', methods=['GET'])
 def main_page():
+    if "username" in session:
+            return redirect("/dashboard")
     return app.send_static_file('main/main.html')
 
 

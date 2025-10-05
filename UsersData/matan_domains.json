@@ -1,0 +1,32 @@
+[
+  {
+    "domain": "www.x.com",
+    "status": "Active",
+    "ssl_expiration": "2025-11-17T18:43:32+00:00",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "www.n12.co.il",
+    "status": "Active",
+    "ssl_expiration": "2026-04-08T23:59:59+00:00",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "www.google.com",
+    "status": "Active",
+    "ssl_expiration": "2025-12-08T08:37:18+00:00",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "www.instagram.com",
+    "status": "Active",
+    "ssl_expiration": "2025-10-13T23:59:59+00:00",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "www.youtube.com",
+    "status": "Active",
+    "ssl_expiration": "2025-12-08T08:34:17+00:00",
+    "ssl_issuer": "Google Trust Services"
+  }
+]
