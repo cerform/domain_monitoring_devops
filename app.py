@@ -179,6 +179,18 @@ def refresh_checks():
     ME.run_user_check_async(session["username"])
     return jsonify({"ok": True, "message": "Checks started"}), 202
 
+@app.route('/scan_domains', methods=['GET'])
+def scan_domains():
+    if "username" not in session:
+        return jsonify({"ok": False, "error": "Unauthorized"}), 401
+
+    username = session["username"]
+    try:
+        updated = ME.MonitoringSystem.scan_user_domains(username)
+        return jsonify({"ok": True, "updated": len(updated)}), 200
+    except Exception as e:
+        logger.error(f"Error during scan: {e}")
+        return jsonify({"ok": False, "error": str(e)}), 500
 
 # ---------------------------
 # Static passthrough (top-level files)

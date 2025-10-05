@@ -47,8 +47,10 @@
         <tr>
           <td><input type="checkbox" class="select-domain" value="{{ d.domain }}"></td>
           <td>{{ d.domain }}</td>
-          <td><span class="badge {{ d.status|lower }}">{{ d.status }}</span></td>
-          <td>{{ d.ssl_expiration }}</td>
+          <td>
+            <span class="badge {{ d.status|lower|replace(' ', '-') }}">{{ d.status }}</span>
+          </td>
+          <td class="timestamp">{{ d.ssl_expiration }}</td>
           <td>{{ d.ssl_issuer }}</td>
           <td>
             <button class="delete-domain-btn" data-domain="{{ d.domain }}" title="Delete">
@@ -104,5 +106,28 @@
         <p>&copy; 2025 Domain Monitoring System - Group 2</p>
     </footer>
   <script src="{{ url_for('static', filename='dashboard/dashboard.js') }}"></script>
+    <script>
+    // Convert ISO 8601 timestamps to readable local format
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".timestamp").forEach(el => {
+        const iso = el.textContent.trim();
+        if (iso && !["N/A", "Unknown"].includes(iso)) {
+          try {
+            const date = new Date(iso);
+            const formatted = date.toLocaleString(undefined, {
+              year: "numeric",
+              month: "short",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit"
+            });
+            el.textContent = formatted;
+          } catch (e) {
+            console.warn("Invalid date:", iso);
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>
