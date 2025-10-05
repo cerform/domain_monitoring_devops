@@ -1,8 +1,8 @@
 import json
 import re
-import logger
+from logger import setup_logger
 
-logger = logger.setup_logger("app")
+logger = setup_logger(__name__)
 
 class UserManager:
     def __init__(self):
@@ -13,7 +13,7 @@ class UserManager:
         logger.debug(f"Loading users.json file.")
         try:
             users = {}
-            with open("./userdata/users.json", "r") as f:
+            with open("./UsersData/users.json", "r") as f:
                 users_json = json.load(f)
             for user_details in users_json:
                 username = user_details["username"]
@@ -47,7 +47,7 @@ class UserManager:
                 logger.debug(f"Writing user to json failed.")
                 return {"error": write_user_status[1]}
             
-            logger.debug(f"creating ./UserData/{username}_domains.json file.")
+            logger.debug(f"creating ./UsersData/{username}_domains.json file.")
             with open(f"./UsersData/{username}_domains.json", "w") as f:
                 json.dump({}, f, indent=4)
             

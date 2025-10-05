@@ -70,18 +70,12 @@ def register():
 def dashboard():
     if "username" not in session:
         return redirect("/login")
-    # ---------------------------
-    # !!!!!!!Example domains data; replace with real data retrieval logic!!!!!!!!
-    # ---------------------------
-    domains=[
-    {
-        "domain": "example.com",
-        "status": "Live",
-        "ssl_expiration": "2025-12-31",
-        "ssl_issuer": "Example Certificate Authority"
-    }
-]
-    return render_template('dashboard.html', username=session['username'], domains=domains)
+
+    username = session['username']
+    domains = domain_engine.list_domains(username)
+
+    return render_template('dashboard.html', username=username, domains=domains)
+
 
 @app.route('/logout', methods=['GET'])
 def logout():
@@ -147,6 +141,24 @@ def bulk_domains():
         "duplicates": duplicates,
         "invalid": invalid
     }}), 200
+
+@app.route('/remove_domains', methods=['POST'])
+def remove_domains():
+    if "username" not in session:
+        return jsonify({"ok": False, "error": "Unauthorized"}), 401
+
+    data = _get_payload()
+    domains_to_remove = data.get("domains") or []
+
+    if not isinstance(domains_to_remove, list) or not domains_to_remove:
+        return jsonify({"ok": False, "error": "Request must include a non-empty 'domains' list"}), 400
+
+    result = domain_engine.remove_domains(session["username"], domains_to_remove)
+
+    return jsonify({
+        "ok": True,
+        "summary": result
+    }), 200
 
 
 @app.route('/my_domains', methods=['GET'])
