@@ -55,7 +55,6 @@ class MonitoringSystem:
         except socket.gaierror as e:
             result["status"] = "DNS Error"
             logger.warning(f"DNS error while checking {domain}: {e}")
-
         except socket.timeout:
             result["status"] = "Timeout"
             logger.warning(f"Timeout while checking {domain}")
