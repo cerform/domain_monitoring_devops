@@ -62,9 +62,10 @@ def register():
             password_confirmation = registerInfo.get("password_confirmation")
             register_status = user_manager.register_page_add_user(username, password, password_confirmation, domain_engine)
             if "message" in register_status:
+                session["username"] = username
                 return jsonify(register_status), 200
             elif "error" in register_status:
-                return jsonify(register_status), 400
+                return jsonify(register_status), 401
         except Exception as e:
             return jsonify({"error": f"User could not be registered: {str(e)}"}), 400
 

@@ -71,6 +71,10 @@ form {
     color: green;
 }
 
+#account-exist {
+    font-size: smaller;
+}
+
 input::placeholder {
     color: #A3A9B8;
     opacity: 1;
