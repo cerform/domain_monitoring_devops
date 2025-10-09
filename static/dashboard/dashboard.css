@@ -202,14 +202,20 @@ tbody td {
   max-width: 140px;            /* prevents overly long text overflow */
 }
 
-.badge.active {
-  background: #A3BE8C; /* Nord green */
+.badge.live {
+  background: #A3BE8C; /* green */
   color: #2E3440;
   border: 1px solid #8FBCBB;
 }
 
-.badge.unreachable {
-  background: #BF616A; /* Nord red */
+.badge.live-no-ssl {
+  background: #EBCB8B; /* yellow */
+  color: #3B4252;
+  border: 1px solid #D9B97A;
+}
+
+.badge.down {
+  background: #BF616A; /* red */
   color: #ECEFF4;
   border: 1px solid #B3565E;
 }

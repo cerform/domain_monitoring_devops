@@ -3,6 +3,7 @@ import ssl
 import concurrent.futures
 from datetime import datetime, timezone
 from typing import Dict, Any, List
+
 from logger import setup_logger
 from DomainManagementEngine import DomainManagementEngine
 
@@ -14,14 +15,17 @@ class MonitoringSystem:
     def _check_domain(domain: str) -> Dict[str, Any]:
         """
         Check reachability and SSL certificate details using sockets.
+        Falls back to HTTP port 80 if SSL is unavailable.
+        Returns: Live / Expired SSL / Down
         """
         result = {
             "domain": domain,
-            "status": "Unreachable",
+            "status": "Down",
             "ssl_expiration": "N/A",
             "ssl_issuer": "N/A"
         }
 
+        # Normalize host
         host = domain.lower().strip()
         if host.startswith("http://"):
             host = host[7:]
@@ -29,6 +33,7 @@ class MonitoringSystem:
             host = host[8:]
         host = host.split("/")[0]
 
+        # --- Try HTTPS first ---
         try:
             ctx = ssl.create_default_context()
             with socket.create_connection((host, 443), timeout=6) as sock:
@@ -37,14 +42,15 @@ class MonitoringSystem:
 
                     expiry_str = cert.get("notAfter")
                     if expiry_str:
-                        expiry_date = datetime.strptime(expiry_str, "%b %d %H:%M:%S %Y %Z")
-                        expiry_date = expiry_date.replace(tzinfo=timezone.utc)
-                        result["ssl_expiration"] = expiry_date.isoformat()
+                        expiry_date = datetime.strptime(expiry_str, "%b %d %H:%M:%S %Y %Z").replace(
+                            tzinfo=timezone.utc
+                        )
+                        result["ssl_expiration"] = expiry_date.strftime("%Y-%m-%d")
 
                         if expiry_date < datetime.now(timezone.utc):
                             result["status"] = "Expired SSL"
                         else:
-                            result["status"] = "Active"
+                            result["status"] = "Live"
 
                     issuer = next(
                         (v for tup in cert.get("issuer", []) for k, v in tup if k == "organizationName"),
@@ -52,23 +58,34 @@ class MonitoringSystem:
                     )
                     result["ssl_issuer"] = issuer or "Unknown"
 
-        except socket.gaierror as e:
-            result["status"] = "DNS Error"
-            logger.warning(f"DNS error while checking {domain}: {e}")
+            return result 
+
+        except (socket.gaierror, socket.timeout, ssl.SSLError, socket.error) as e:
+            logger.warning(f"HTTPS failed for {domain}: {e}")
+
+        # --- Fallback: try HTTP port 80 ---
+        try:
+            with socket.create_connection((host, 80), timeout=6) as sock:
+                http_request = f"HEAD / HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n"
+                sock.sendall(http_request.encode())
+                response = sock.recv(512).decode(errors="ignore")
+
+                if "HTTP" in response:
+                    result["status"] = "Live"
+                else:
+                    result["status"] = "Down"
+
         except socket.timeout:
-            result["status"] = "Timeout"
-            logger.warning(f"Timeout while checking {domain}")
-        except ssl.SSLError:
-            result["status"] = "SSL Error"
+            logger.warning(f"Timeout while checking HTTP for {domain}")
         except Exception as e:
-            logger.warning(f"Error checking {domain}: {e}")
+            logger.warning(f"HTTP fallback failed for {domain}: {e}")
 
         return result
 
     @staticmethod
     def scan_user_domains(username: str, max_workers: int = 10) -> List[Dict[str, Any]]:
         """
-        Run SSL and reachability checks for all domains of a user concurrently.
+        Run SSL and reachability checks for all domains concurrently.
         """
         dme = DomainManagementEngine()
         domains = dme.load_user_domains(username)
