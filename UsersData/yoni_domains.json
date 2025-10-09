@@ -12,12 +12,6 @@
     "ssl_issuer": "Google Trust Services"
   },
   {
-    "domain": "stackoverflow.com",
-    "status": "Live",
-    "ssl_expiration": "2025-11-24",
-    "ssl_issuer": "Let's Encrypt"
-  },
-  {
     "domain": "cloudflare.com",
     "status": "Live",
     "ssl_expiration": "2025-12-09",
@@ -30,15 +24,15 @@
     "ssl_issuer": "Google Trust Services"
   },
   {
+    "domain": "stackoverflow.com",
+    "status": "Live",
+    "ssl_expiration": "2025-11-24",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
     "domain": "coursera.org",
     "status": "Live",
     "ssl_expiration": "2026-05-21",
-    "ssl_issuer": "Amazon"
-  },
-  {
-    "domain": "hackernews.com",
-    "status": "Live",
-    "ssl_expiration": "2026-07-15",
     "ssl_issuer": "Amazon"
   },
   {
@@ -50,13 +44,7 @@
   {
     "domain": "www.google.com",
     "status": "Live",
-    "ssl_expiration": "2025-12-08",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "mozilla.org",
-    "status": "Live",
-    "ssl_expiration": "2025-11-27",
+    "ssl_expiration": "2025-12-15",
     "ssl_issuer": "Google Trust Services"
   },
   {
@@ -66,15 +54,27 @@
     "ssl_issuer": "DigiCert Inc"
   },
   {
-    "domain": "nytimes.com",
+    "domain": "mozilla.org",
     "status": "Live",
-    "ssl_expiration": "2026-03-14",
-    "ssl_issuer": "DigiCert Inc"
+    "ssl_expiration": "2025-11-27",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "hackernews.com",
+    "status": "Live",
+    "ssl_expiration": "2026-07-15",
+    "ssl_issuer": "Amazon"
   },
   {
     "domain": "python.org",
     "status": "Live",
     "ssl_expiration": "2026-04-13",
+    "ssl_issuer": "GlobalSign nv-sa"
+  },
+  {
+    "domain": "bbc.co.uk",
+    "status": "Live",
+    "ssl_expiration": "2026-07-27",
     "ssl_issuer": "GlobalSign nv-sa"
   },
   {
@@ -84,16 +84,16 @@
     "ssl_issuer": "Apple Inc."
   },
   {
-    "domain": "bbc.co.uk",
-    "status": "Live",
-    "ssl_expiration": "2026-07-27",
-    "ssl_issuer": "GlobalSign nv-sa"
-  },
-  {
     "domain": "wikipedia.org",
     "status": "Live",
     "ssl_expiration": "2025-11-08",
     "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "nytimes.com",
+    "status": "Live",
+    "ssl_expiration": "2026-03-14",
+    "ssl_issuer": "DigiCert Inc"
   },
   {
     "domain": "netflix.com",
@@ -108,15 +108,27 @@
     "ssl_issuer": "DigiCert Inc"
   },
   {
-    "domain": "microsoft.com",
+    "domain": "example.com",
+    "status": "Live",
+    "ssl_expiration": "2026-01-15",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "neverssl.com",
+    "status": "Live",
+    "ssl_expiration": "2026-08-07",
+    "ssl_issuer": "Amazon"
+  },
+  {
+    "domain": "httpforever.com",
     "status": "Live",
     "ssl_expiration": "N/A",
     "ssl_issuer": "N/A"
   },
   {
-    "domain": "example.com",
+    "domain": "microsoft.com",
     "status": "Live",
-    "ssl_expiration": "N/A",
-    "ssl_issuer": "N/A"
+    "ssl_expiration": "2026-03-30",
+    "ssl_issuer": "Microsoft Corporation"
   }
 ]

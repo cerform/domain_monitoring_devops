@@ -47,10 +47,7 @@ class MonitoringSystem:
                         )
                         result["ssl_expiration"] = expiry_date.strftime("%Y-%m-%d")
 
-                        if expiry_date < datetime.now(timezone.utc):
-                            result["status"] = "Expired SSL"
-                        else:
-                            result["status"] = "Live"
+                        result["status"] = "Live"
 
                     issuer = next(
                         (v for tup in cert.get("issuer", []) for k, v in tup if k == "organizationName"),
