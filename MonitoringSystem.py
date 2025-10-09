@@ -36,7 +36,7 @@ class MonitoringSystem:
         # --- Try HTTPS first ---
         try:
             ctx = ssl.create_default_context()
-            with socket.create_connection((host, 443), timeout=6) as sock:
+            with socket.create_connection((host, 443), timeout=2) as sock:
                 with ctx.wrap_socket(sock, server_hostname=host) as ssock:
                     cert = ssock.getpeercert()
 
@@ -62,7 +62,7 @@ class MonitoringSystem:
 
         # --- Fallback: try HTTP port 80 ---
         try:
-            with socket.create_connection((host, 80), timeout=6) as sock:
+            with socket.create_connection((host, 80), timeout=2) as sock:
                 http_request = f"HEAD / HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n"
                 sock.sendall(http_request.encode())
                 response = sock.recv(512).decode(errors="ignore")
@@ -80,7 +80,7 @@ class MonitoringSystem:
         return result
 
     @staticmethod
-    def scan_user_domains(username: str, max_workers: int = 10) -> List[Dict[str, Any]]:
+    def scan_user_domains(username: str, max_workers: int = 20) -> List[Dict[str, Any]]:
         """
         Run SSL and reachability checks for all domains concurrently.
         """
