@@ -234,6 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // =======================
   logoutBtn?.addEventListener("click", (e) => {
     e.preventDefault();
+    sessionStorage.removeItem("scanClicked"); 
     logoutBtn.textContent = "Logging out...";
     logoutBtn.style.pointerEvents = "none";
     logoutBtn.style.opacity = "0.7";
@@ -250,4 +251,16 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("click", (e) => {
     if (e.target.classList.contains("modal")) closeModal(e.target);
   });
+  // =======================
+  // Auto-scan on page load
+  // =======================
+
+  if (!sessionStorage.getItem("scanClicked")) {
+    const scanBtn = document.getElementById("scanNowBtn");
+    if (scanBtn) {
+      sessionStorage.setItem("scanClicked", "true");
+      scanBtn.click();
+    }
+  }
 });
+
