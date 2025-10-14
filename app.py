@@ -189,7 +189,7 @@ def scan_domains():
 
     username = session["username"]
     try:
-        updated = ME.MonitoringSystem.scan_user_domains(username)
+        updated = ME.MonitoringSystem.scan_user_domains(username, domain_engine)
         return jsonify({"ok": True, "updated": len(updated)}), 200
     except Exception as e:
         logger.error(f"Error during scan: {e}")

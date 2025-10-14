@@ -3,12 +3,13 @@ import ssl
 import concurrent.futures
 from datetime import datetime, timezone
 from typing import Dict, Any, List
-
+import requests
 from logger import setup_logger
 from DomainManagementEngine import DomainManagementEngine
 
 logger = setup_logger("MonitoringSystem")
 
+SSL_CTX = ssl.create_default_context()
 
 class MonitoringSystem:
     @staticmethod
@@ -26,18 +27,12 @@ class MonitoringSystem:
         }
 
         # Normalize host
-        host = domain.lower().strip()
-        if host.startswith("http://"):
-            host = host[7:]
-        elif host.startswith("https://"):
-            host = host[8:]
-        host = host.split("/")[0]
+        host = domain.lower().strip().replace("http://", "").replace("https://", "").split("/")[0]
 
         # --- Try HTTPS first ---
         try:
-            ctx = ssl.create_default_context()
-            with socket.create_connection((host, 443), timeout=2) as sock:
-                with ctx.wrap_socket(sock, server_hostname=host) as ssock:
+            with socket.create_connection((host, 443), timeout=1) as sock:
+                with SSL_CTX.wrap_socket(sock, server_hostname=host) as ssock:
                     cert = ssock.getpeercert()
 
                     expiry_str = cert.get("notAfter")
@@ -61,8 +56,8 @@ class MonitoringSystem:
             logger.warning(f"HTTPS failed for {domain}: {e}")
 
         # --- Fallback: try HTTP port 80 ---
-        try:
-            with socket.create_connection((host, 80), timeout=2) as sock:
+        try:   
+            with socket.create_connection((host, 80), timeout=1) as sock:
                 http_request = f"HEAD / HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n"
                 sock.sendall(http_request.encode())
                 response = sock.recv(512).decode(errors="ignore")
@@ -79,12 +74,12 @@ class MonitoringSystem:
 
         return result
 
+
     @staticmethod
-    def scan_user_domains(username: str, max_workers: int = 20) -> List[Dict[str, Any]]:
+    def scan_user_domains(username: str, dme: DomainManagementEngine, max_workers: int = 20) -> List[Dict[str, Any]]:
         """
         Run SSL and reachability checks for all domains concurrently.
         """
-        dme = DomainManagementEngine()
         domains = dme.load_user_domains(username)
         if not domains:
             return []

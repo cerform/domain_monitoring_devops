@@ -1,27 +1,9 @@
 [
   {
-    "domain": "miit.gov.cn",
-    "status": "Down",
-    "ssl_expiration": "N/A",
-    "ssl_issuer": "N/A"
-  },
-  {
     "domain": "wixsite.com",
     "status": "Down",
     "ssl_expiration": "N/A",
     "ssl_issuer": "N/A"
-  },
-  {
-    "domain": "goo.gl",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "apple.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-17",
-    "ssl_issuer": "Apple Inc."
   },
   {
     "domain": "vimeo.com",
@@ -30,16 +12,94 @@
     "ssl_issuer": "Google Trust Services"
   },
   {
-    "domain": "whatsapp.com",
+    "domain": "twitter.com",
     "status": "Live",
-    "ssl_expiration": "2025-10-16",
-    "ssl_issuer": "DigiCert Inc"
+    "ssl_expiration": "2026-01-11",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "medium.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "creativecommons.org",
+    "status": "Live",
+    "ssl_expiration": "2025-12-10",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "microsoft.com",
+    "status": "Live",
+    "ssl_expiration": "2026-03-30",
+    "ssl_issuer": "Microsoft Corporation"
+  },
+  {
+    "domain": "docs.google.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
   },
   {
     "domain": "x.com",
     "status": "Live",
-    "ssl_expiration": "2025-11-17",
+    "ssl_expiration": "2026-01-11",
     "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "goo.gl",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "maps.google.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "google.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "bit.ly",
+    "status": "Live",
+    "ssl_expiration": "2026-03-25",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "youtube.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "googletagmanager.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "github.com",
+    "status": "Live",
+    "ssl_expiration": "2026-02-05",
+    "ssl_issuer": "Sectigo Limited"
+  },
+  {
+    "domain": "player.vimeo.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-13",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "blogspot.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
   },
   {
     "domain": "youtu.be",
@@ -54,141 +114,15 @@
     "ssl_issuer": "DigiCert Inc"
   },
   {
-    "domain": "wa.me",
-    "status": "Live",
-    "ssl_expiration": "2025-10-16",
-    "ssl_issuer": "DigiCert Inc"
-  },
-  {
-    "domain": "twitter.com",
-    "status": "Live",
-    "ssl_expiration": "2025-11-17",
-    "ssl_issuer": "Let's Encrypt"
-  },
-  {
-    "domain": "googletagmanager.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "maps.google.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
     "domain": "plus.google.com",
     "status": "Live",
     "ssl_expiration": "2025-12-15",
     "ssl_issuer": "Google Trust Services"
   },
   {
-    "domain": "google.com",
+    "domain": "cloudflare.com",
     "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "docs.google.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "facebook.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-16",
-    "ssl_issuer": "DigiCert Inc"
-  },
-  {
-    "domain": "blogspot.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "github.com",
-    "status": "Live",
-    "ssl_expiration": "2026-02-05",
-    "ssl_issuer": "Sectigo Limited"
-  },
-  {
-    "domain": "youtube.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "creativecommons.org",
-    "status": "Live",
-    "ssl_expiration": "2025-12-10",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "drive.google.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "wordpress.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-08",
-    "ssl_issuer": "Let's Encrypt"
-  },
-  {
-    "domain": "itunes.apple.com",
-    "status": "Live",
-    "ssl_expiration": "2026-03-17",
-    "ssl_issuer": "Apple Inc."
-  },
-  {
-    "domain": "player.vimeo.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-13",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "mozilla.org",
-    "status": "Live",
-    "ssl_expiration": "2025-11-27",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "api.whatsapp.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-16",
-    "ssl_issuer": "DigiCert Inc"
-  },
-  {
-    "domain": "bit.ly",
-    "status": "Live",
-    "ssl_expiration": "2026-03-25",
-    "ssl_issuer": "DigiCert Inc"
-  },
-  {
-    "domain": "httpd.apache.org",
-    "status": "Live",
-    "ssl_expiration": "2025-12-28",
-    "ssl_issuer": "Let's Encrypt"
-  },
-  {
-    "domain": "microsoft.com",
-    "status": "Live",
-    "ssl_expiration": "2026-03-30",
-    "ssl_issuer": "Microsoft Corporation"
-  },
-  {
-    "domain": "medium.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "policies.google.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
+    "ssl_expiration": "2025-12-09",
     "ssl_issuer": "Google Trust Services"
   },
   {
@@ -198,16 +132,64 @@
     "ssl_issuer": "Google Trust Services"
   },
   {
-    "domain": "wikipedia.org",
+    "domain": "mozilla.org",
     "status": "Live",
-    "ssl_expiration": "2025-11-08",
-    "ssl_issuer": "Let's Encrypt"
+    "ssl_expiration": "2025-11-27",
+    "ssl_issuer": "Google Trust Services"
   },
   {
-    "domain": "pinterest.com",
+    "domain": "whatsapp.com",
     "status": "Live",
-    "ssl_expiration": "2026-08-23",
+    "ssl_expiration": "2025-10-21",
     "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "doi.org",
+    "status": "Live",
+    "ssl_expiration": "2025-12-24",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "wa.me",
+    "status": "Live",
+    "ssl_expiration": "2025-10-21",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "drive.google.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "apple.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-17",
+    "ssl_issuer": "Apple Inc."
+  },
+  {
+    "domain": "spotify.com",
+    "status": "Live",
+    "ssl_expiration": "2026-01-06",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "tinyurl.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-13",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "api.whatsapp.com",
+    "status": "Live",
+    "ssl_expiration": "2025-10-21",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "policies.google.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
   },
   {
     "domain": "github.io",
@@ -216,15 +198,21 @@
     "ssl_issuer": "Sectigo Limited"
   },
   {
-    "domain": "wordpress.org",
+    "domain": "httpd.apache.org",
     "status": "Live",
-    "ssl_expiration": "2025-12-27",
+    "ssl_expiration": "2025-12-28",
     "ssl_issuer": "Let's Encrypt"
   },
   {
-    "domain": "instagram.com",
+    "domain": "support.google.com",
     "status": "Live",
-    "ssl_expiration": "2025-10-16",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "pinterest.com",
+    "status": "Live",
+    "ssl_expiration": "2026-08-23",
     "ssl_issuer": "DigiCert Inc"
   },
   {
@@ -234,40 +222,28 @@
     "ssl_issuer": "Amazon"
   },
   {
+    "domain": "sourceforge.net",
+    "status": "Live",
+    "ssl_expiration": "2025-11-11",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "w3.org",
+    "status": "Live",
+    "ssl_expiration": "2025-12-16",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
     "domain": "tumblr.com",
     "status": "Live",
     "ssl_expiration": "2026-03-26",
     "ssl_issuer": "Sectigo Limited"
   },
   {
-    "domain": "adobe.com",
+    "domain": "theguardian.com",
     "status": "Live",
-    "ssl_expiration": "2026-03-05",
-    "ssl_issuer": "DigiCert Inc"
-  },
-  {
-    "domain": "support.google.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "europa.eu",
-    "status": "Live",
-    "ssl_expiration": "2026-08-14",
+    "ssl_expiration": "2026-11-08",
     "ssl_issuer": "GlobalSign nv-sa"
-  },
-  {
-    "domain": "cloudflare.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-09",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "maps.app.goo.gl",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
   },
   {
     "domain": "open.spotify.com",
@@ -282,10 +258,22 @@
     "ssl_issuer": "Google Trust Services"
   },
   {
-    "domain": "theguardian.com",
+    "domain": "live.com",
     "status": "Live",
-    "ssl_expiration": "2026-11-08",
-    "ssl_issuer": "GlobalSign nv-sa"
+    "ssl_expiration": "2026-09-12",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "itunes.apple.com",
+    "status": "Live",
+    "ssl_expiration": "2026-03-17",
+    "ssl_issuer": "Apple Inc."
+  },
+  {
+    "domain": "facebook.com",
+    "status": "Live",
+    "ssl_expiration": "2025-10-21",
+    "ssl_issuer": "DigiCert Inc"
   },
   {
     "domain": "apache.org",
@@ -294,51 +282,9 @@
     "ssl_issuer": "Let's Encrypt"
   },
   {
-    "domain": "t.me",
+    "domain": "shopify.com",
     "status": "Live",
-    "ssl_expiration": "2025-11-07",
-    "ssl_issuer": "GoDaddy.com, Inc."
-  },
-  {
-    "domain": "sourceforge.net",
-    "status": "Live",
-    "ssl_expiration": "2025-11-11",
-    "ssl_issuer": "Let's Encrypt"
-  },
-  {
-    "domain": "doi.org",
-    "status": "Live",
-    "ssl_expiration": "2025-12-24",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "amazon.com",
-    "status": "Live",
-    "ssl_expiration": "2026-06-19",
-    "ssl_issuer": "DigiCert Inc"
-  },
-  {
-    "domain": "spotify.com",
-    "status": "Live",
-    "ssl_expiration": "2026-01-06",
-    "ssl_issuer": "DigiCert Inc"
-  },
-  {
-    "domain": "nginx.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-02",
-    "ssl_issuer": "Let's Encrypt"
-  },
-  {
-    "domain": "soundcloud.com",
-    "status": "Live",
-    "ssl_expiration": "2026-03-16",
-    "ssl_issuer": "GlobalSign nv-sa"
-  },
-  {
-    "domain": "tinyurl.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-13",
+    "ssl_expiration": "2025-11-19",
     "ssl_issuer": "Google Trust Services"
   },
   {
@@ -348,31 +294,109 @@
     "ssl_issuer": "DigiCert Inc"
   },
   {
-    "domain": "apps.apple.com",
+    "domain": "t.co",
     "status": "Live",
-    "ssl_expiration": "2026-03-17",
-    "ssl_issuer": "Apple Inc."
+    "ssl_expiration": "2025-12-16",
+    "ssl_issuer": "Let's Encrypt"
   },
   {
-    "domain": "support.apple.com",
+    "domain": "soundcloud.com",
     "status": "Live",
-    "ssl_expiration": "2026-03-24",
-    "ssl_issuer": "Apple Inc."
+    "ssl_expiration": "2026-03-16",
+    "ssl_issuer": "GlobalSign nv-sa"
   },
   {
-    "domain": "godaddy.com",
-    "status": "Live",
-    "ssl_expiration": "2026-02-07",
-    "ssl_issuer": "GoDaddy.com, Inc."
-  },
-  {
-    "domain": "googleblog.com",
+    "domain": "maps.app.goo.gl",
     "status": "Live",
     "ssl_expiration": "2025-12-15",
     "ssl_issuer": "Google Trust Services"
   },
   {
+    "domain": "who.int",
+    "status": "Live",
+    "ssl_expiration": "2026-01-07",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "sciencedirect.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-27",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "adobe.com",
+    "status": "Live",
+    "ssl_expiration": "2026-03-05",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "wordpress.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-08",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "paypal.com",
+    "status": "Live",
+    "ssl_expiration": "2026-07-07",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "nginx.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-02",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "instagram.com",
+    "status": "Live",
+    "ssl_expiration": "2025-10-21",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "europa.eu",
+    "status": "Live",
+    "ssl_expiration": "2026-08-14",
+    "ssl_issuer": "GlobalSign nv-sa"
+  },
+  {
+    "domain": "forbes.com",
+    "status": "Live",
+    "ssl_expiration": "2026-02-08",
+    "ssl_issuer": "GlobalSign nv-sa"
+  },
+  {
+    "domain": "t.me",
+    "status": "Live",
+    "ssl_expiration": "2025-12-05",
+    "ssl_issuer": "GoDaddy.com, Inc."
+  },
+  {
+    "domain": "cnn.com",
+    "status": "Live",
+    "ssl_expiration": "2026-07-04",
+    "ssl_issuer": "GlobalSign nv-sa"
+  },
+  {
+    "domain": "wikipedia.org",
+    "status": "Live",
+    "ssl_expiration": "2025-11-08",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
     "domain": "sites.google.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
+  },
+  {
+    "domain": "bbc.com",
+    "status": "Live",
+    "ssl_expiration": "2026-07-27",
+    "ssl_issuer": "GlobalSign nv-sa"
+  },
+  {
+    "domain": "googleblog.com",
     "status": "Live",
     "ssl_expiration": "2025-12-15",
     "ssl_issuer": "Google Trust Services"
@@ -384,76 +408,10 @@
     "ssl_issuer": "DigiCert Inc"
   },
   {
-    "domain": "sciencedirect.com",
+    "domain": "bbc.co.uk",
     "status": "Live",
-    "ssl_expiration": "2025-12-27",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "w3.org",
-    "status": "Live",
-    "ssl_expiration": "2025-12-16",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "shopify.com",
-    "status": "Live",
-    "ssl_expiration": "2025-11-19",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "live.com",
-    "status": "Live",
-    "ssl_expiration": "2026-09-12",
-    "ssl_issuer": "DigiCert Inc"
-  },
-  {
-    "domain": "who.int",
-    "status": "Live",
-    "ssl_expiration": "2026-01-07",
-    "ssl_issuer": "Google Trust Services"
-  },
-  {
-    "domain": "en.wikipedia.org",
-    "status": "Live",
-    "ssl_expiration": "2025-11-08",
-    "ssl_issuer": "Let's Encrypt"
-  },
-  {
-    "domain": "opera.com",
-    "status": "Live",
-    "ssl_expiration": "2026-01-09",
-    "ssl_issuer": "DigiCert Inc"
-  },
-  {
-    "domain": "ec.europa.eu",
-    "status": "Live",
-    "ssl_expiration": "2026-08-07",
+    "ssl_expiration": "2026-07-27",
     "ssl_issuer": "GlobalSign nv-sa"
-  },
-  {
-    "domain": "support.mozilla.org",
-    "status": "Live",
-    "ssl_expiration": "2026-01-04",
-    "ssl_issuer": "Let's Encrypt"
-  },
-  {
-    "domain": "cnn.com",
-    "status": "Live",
-    "ssl_expiration": "2026-07-04",
-    "ssl_issuer": "GlobalSign nv-sa"
-  },
-  {
-    "domain": "paypal.com",
-    "status": "Live",
-    "ssl_expiration": "2026-07-07",
-    "ssl_issuer": "DigiCert Inc"
-  },
-  {
-    "domain": "t.co",
-    "status": "Live",
-    "ssl_expiration": "2025-12-16",
-    "ssl_issuer": "Let's Encrypt"
   },
   {
     "domain": "accounts.google.com",
@@ -468,40 +426,52 @@
     "ssl_issuer": "DigiCert Inc"
   },
   {
-    "domain": "bbc.com",
-    "status": "Live",
-    "ssl_expiration": "2026-07-27",
-    "ssl_issuer": "GlobalSign nv-sa"
-  },
-  {
-    "domain": "forbes.com",
-    "status": "Live",
-    "ssl_expiration": "2026-02-08",
-    "ssl_issuer": "GlobalSign nv-sa"
-  },
-  {
-    "domain": "bbc.co.uk",
-    "status": "Live",
-    "ssl_expiration": "2026-07-27",
-    "ssl_issuer": "GlobalSign nv-sa"
-  },
-  {
-    "domain": "nginx.org",
-    "status": "Live",
-    "ssl_expiration": "2025-10-26",
-    "ssl_issuer": "Let's Encrypt"
-  },
-  {
     "domain": "office.com",
     "status": "Live",
-    "ssl_expiration": "2026-01-09",
+    "ssl_expiration": "2026-04-10",
     "ssl_issuer": "Microsoft Corporation"
   },
   {
-    "domain": "www.ncbi.nlm.nih.gov",
+    "domain": "support.mozilla.org",
     "status": "Live",
-    "ssl_expiration": "2026-04-14",
-    "ssl_issuer": "GoDaddy.com, Inc."
+    "ssl_expiration": "2026-01-04",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "opera.com",
+    "status": "Live",
+    "ssl_expiration": "2026-01-09",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "apps.apple.com",
+    "status": "Live",
+    "ssl_expiration": "2026-03-17",
+    "ssl_issuer": "Apple Inc."
+  },
+  {
+    "domain": "wordpress.org",
+    "status": "Live",
+    "ssl_expiration": "2025-12-27",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "ec.europa.eu",
+    "status": "Live",
+    "ssl_expiration": "2026-08-07",
+    "ssl_issuer": "GlobalSign nv-sa"
+  },
+  {
+    "domain": "en.wikipedia.org",
+    "status": "Live",
+    "ssl_expiration": "2025-11-08",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "youtube-nocookie.com",
+    "status": "Live",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "vk.com",
@@ -516,28 +486,10 @@
     "ssl_issuer": "DigiCert Inc"
   },
   {
-    "domain": "yahoo.com",
+    "domain": "amazon.com",
     "status": "Live",
-    "ssl_expiration": "2026-04-01",
+    "ssl_expiration": "2026-06-19",
     "ssl_issuer": "DigiCert Inc"
-  },
-  {
-    "domain": "youtube-nocookie.com",
-    "status": "Live",
-    "ssl_expiration": "N/A",
-    "ssl_issuer": "N/A"
-  },
-  {
-    "domain": "cpanel.net",
-    "status": "Live",
-    "ssl_expiration": "2026-01-26",
-    "ssl_issuer": "Sectigo Limited"
-  },
-  {
-    "domain": "gravatar.com",
-    "status": "Live",
-    "ssl_expiration": "2025-11-11",
-    "ssl_issuer": "Let's Encrypt"
   },
   {
     "domain": "linkedin.com",
@@ -546,21 +498,69 @@
     "ssl_issuer": "N/A"
   },
   {
+    "domain": "godaddy.com",
+    "status": "Live",
+    "ssl_expiration": "2026-02-07",
+    "ssl_issuer": "GoDaddy.com, Inc."
+  },
+  {
+    "domain": "miit.gov.cn",
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
+  },
+  {
+    "domain": "support.apple.com",
+    "status": "Live",
+    "ssl_expiration": "2026-03-24",
+    "ssl_issuer": "Apple Inc."
+  },
+  {
+    "domain": "www.ncbi.nlm.nih.gov",
+    "status": "Live",
+    "ssl_expiration": "2026-04-14",
+    "ssl_issuer": "GoDaddy.com, Inc."
+  },
+  {
+    "domain": "nginx.org",
+    "status": "Live",
+    "ssl_expiration": "2025-10-26",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "archive.org",
+    "status": "Live",
+    "ssl_expiration": "2026-01-24",
+    "ssl_issuer": "GoDaddy.com, Inc."
+  },
+  {
     "domain": "web.archive.org",
     "status": "Live",
     "ssl_expiration": "2026-01-24",
     "ssl_issuer": "GoDaddy.com, Inc."
   },
   {
+    "domain": "yahoo.com",
+    "status": "Live",
+    "ssl_expiration": "2026-04-01",
+    "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "gravatar.com",
+    "status": "Live",
+    "ssl_expiration": "2026-01-10",
+    "ssl_issuer": "Let's Encrypt"
+  },
+  {
+    "domain": "cpanel.net",
+    "status": "Live",
+    "ssl_expiration": "2026-01-26",
+    "ssl_issuer": "Sectigo Limited"
+  },
+  {
     "domain": "nih.gov",
     "status": "Live",
     "ssl_expiration": "2026-02-22",
-    "ssl_issuer": "GoDaddy.com, Inc."
-  },
-  {
-    "domain": "archive.org",
-    "status": "Live",
-    "ssl_expiration": "2026-01-24",
     "ssl_issuer": "GoDaddy.com, Inc."
   },
   {
@@ -570,10 +570,10 @@
     "ssl_issuer": "DigiCert Inc"
   },
   {
-    "domain": "beian.miit.gov.cn",
+    "domain": "qq.com",
     "status": "Live",
-    "ssl_expiration": "2025-10-13",
-    "ssl_issuer": "sslTrus"
+    "ssl_expiration": "2026-06-12",
+    "ssl_issuer": "DigiCert, Inc."
   },
   {
     "domain": "baidu.com",
@@ -582,16 +582,16 @@
     "ssl_issuer": "DigiCert, Inc."
   },
   {
-    "domain": "qq.com",
-    "status": "Live",
-    "ssl_expiration": "2026-06-12",
-    "ssl_issuer": "DigiCert, Inc."
-  },
-  {
     "domain": "macromedia.com",
     "status": "Down",
     "ssl_expiration": "N/A",
     "ssl_issuer": "N/A"
+  },
+  {
+    "domain": "beian.miit.gov.cn",
+    "status": "Live",
+    "ssl_expiration": "2026-10-19",
+    "ssl_issuer": "sslTrus"
   },
   {
     "domain": "amazonaws.com",
