@@ -1,12 +1,8 @@
-{
-  "username": "john_doe",
-  "domains": [
-    {
-      "host": "www.google.com",
-      "added_at": "2025-10-02T12:01:38.260Z",
-      "last_check": null,
-      "http": null,
-      "ssl": null
-    }
-  ]
-}
+[
+  {
+    "domain": "www.google.com",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
+  }
+]
