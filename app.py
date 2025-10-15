@@ -175,12 +175,6 @@ def my_domains():
 # ---------------------------
 # Monitoring
 # ---------------------------
-@app.route('/refresh_checks', methods=['POST'])
-def refresh_checks():
-    if "username" not in session:
-        return jsonify({"ok": False, "error": "Unauthorized"}), 401
-    ME.run_user_check_async(session["username"])
-    return jsonify({"ok": True, "message": "Checks started"}), 202
 
 @app.route('/scan_domains', methods=['GET'])
 def scan_domains():
@@ -189,7 +183,7 @@ def scan_domains():
 
     username = session["username"]
     try:
-        updated = ME.MonitoringSystem.scan_user_domains(username, domain_engine)
+        updated = ME.MonitoringSystem.scan_user_domains(username, dme=domain_engine)
         return jsonify({"ok": True, "updated": len(updated)}), 200
     except Exception as e:
         logger.error(f"Error during scan: {e}")
