@@ -8,7 +8,7 @@ import logger
 logger = logger.setup_logger("app")
 user_manager = UM()
 domain_engine = DME(user_manager=user_manager)
-# monitoring_system = ME()
+monitoring_system = ME.MonitoringSystem()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "group2_devops_project")
@@ -183,7 +183,7 @@ def scan_domains():
 
     username = session["username"]
     try:
-        updated = ME.MonitoringSystem.scan_user_domains(username, dme=domain_engine)
+        updated = monitoring_system.scan_user_domains(username, dme=domain_engine)
         return jsonify({"ok": True, "updated": len(updated)}), 200
     except Exception as e:
         logger.error(f"Error during scan: {e}")

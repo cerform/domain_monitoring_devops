@@ -36,10 +36,7 @@ class DomainManagementEngine:
     File-backed user domain storage and domain validation/CRUD.
 
     JSON structure example (UsersData/alex_domains.json):
-    {
-      "username": "alex",
-      "last_full_check": "2025-09-15T14:10:43.201Z",
-      "domains": [
+    [
         {
           "host": "example.com",
           "added_at": "2025-09-15T12:34:56.000Z",
@@ -47,8 +44,8 @@ class DomainManagementEngine:
           "http": null,
           "ssl":  null
         }
-      ]
-    }
+    ]
+    
     """
 
     # Regex for FQDN validation (example.com, sub.example.co.il etc.)
