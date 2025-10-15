@@ -1,16 +1,64 @@
-# domain_monitoring_devops
-task for devops course. domains monitoring system
+# Domain Monitoring DevOps
 
-##
+A domain monitoring system project for DevOps course.
 
-In repository's settings, please enable disscussions:<br>
-1.Go to your repository on GitHub.<br>
-2.Click on the ⚙️ Settings tab (top menu).<br>
-3.In the left sidebar, select General.<br>
-4.Scroll down to the Features section.<br>
-5.Check the box ☑ Discussions.<br>
-6.Click Save changes if needed.<br>
+## 📌 Project Description
 
-##
+This system monitors the availability and status of domains. It includes user management, logging, domain management, domain monitoring and web interface support.
 
-pallete - https://www.color-hex.com/color-palette/8731
+## 🧱 Project Structure
+
+```
+domain_monitoring_devops/
+├── app.py                    # Web interface (Flask)
+├── DomainManagementEngine.py # Domain management logic
+├── MonitoringSystem.py       # Domain monitoring engine
+├── UserManagementModule.py   # User management
+├── logger.py                 # Logging system
+├── templates/                # dynamic dashboard HTML template
+├── static/                   # Static files (HTML, CSS, JS)
+├── tests/                    # Test and demo files
+├── logs/                     # Log folder
+└── UsersData/                # User data
+```
+
+## ⚙️ Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/MatanItzhaki12/domain_monitoring_devops.git
+cd domain_monitoring_devops
+```
+
+2. Create a virtual environment and install dependencies:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+3. Run the main file (e.g., app.py):
+
+```bash
+python app.py
+```
+
+> You can also run other files in `tests/` or `scripts/` for demos.
+
+```bash
+python tests/test_monitoring_system.py
+```
+
+## 👤 Authors
+
+* Matan
+* Sergey
+* Johhny
+* Oz
+* Assaf
+
+## 📄 License
+
+This project is licensed under the MIT License.
