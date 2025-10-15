@@ -45,7 +45,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-> You can also run other files in `tests/` or `scripts/` for demos.
+* You can also run the performance test file in `tests/`:
 
 ```bash
 python tests/test_monitoring_system.py
