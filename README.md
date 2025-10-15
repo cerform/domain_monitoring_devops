@@ -34,8 +34,8 @@ cd domain_monitoring_devops
 2. Create a virtual environment and install dependencies:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python -m venv venv # Or: python3 -m venv venv
+source venv/bin/activate  # On Windows (CMD): venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
