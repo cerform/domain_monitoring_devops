@@ -1,8 +1,15 @@
 import time
+import sys
+import os
+
+# The correct path for the modules
+module_path = os.path.abspath(".") 
+if module_path not in sys.path:
+    sys.path.append(module_path)
+
 from MonitoringSystem import MonitoringSystem as MS
 from DomainManagementEngine import DomainManagementEngine as DME
-import concurrent.futures
-from queue import Queue
+
 
 
 # Initializing Domain Management Engine and Monitoring System
