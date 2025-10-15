@@ -1,4 +1,4 @@
-# Domain Monitoring DevOps
+# Domain Monitoring System - DevOps Course
 
 A domain monitoring system project for DevOps course.
 
