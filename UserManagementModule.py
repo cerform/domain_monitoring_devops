@@ -34,7 +34,7 @@ class UserManager:
             logger.error(f"users.json could not be loaded! {str(e)}")
             return {}
 
-    def register_page_add_user(self, username, password, password_confirmation, dme):
+    def register_page_add_user(self, username, password, password_confirmation, dme: DME.DomainManagementEngine):
         """
         registering user to the system, after checking the validity of the credentials.
         """
@@ -61,8 +61,6 @@ class UserManager:
                 return {"error": write_user_status[1]}
             # Creating a new file for user's domains
             logger.debug(f"creating ./UsersData/{username}_domains.json file.")
-            # with open(f"./Usersdata/{username}_domains.json", "w") as f:
-            #     json.dump([], f, indent=4)
             dme.load_user_domains(username)
 
             logger.info(f"{username} registered successfully.")
