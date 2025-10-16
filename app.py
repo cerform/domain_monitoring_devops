@@ -7,7 +7,7 @@ import logger
 
 logger = logger.setup_logger("app")
 user_manager = UM()
-domain_engine = DME(user_manager=user_manager)
+domain_engine = DME()
 monitoring_system = ME.MonitoringSystem()
 
 app = Flask(__name__)
@@ -110,7 +110,7 @@ def add_domain():
     saved = domain_engine.add_domain(session["username"], norm_domain)
     if not saved:
         return jsonify({"ok": False, "error": "Domain already exists"}), 409
-
+    
     return jsonify({"ok": True, "domain": norm_domain}), 201
 
 

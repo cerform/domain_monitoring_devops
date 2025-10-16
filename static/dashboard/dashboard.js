@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const result = await res.json();
 
       if (result.ok) {
-        await finalizeModal(bulkUploadStatus, "Bulk upload completed!", "success", bulkUploadModal);
+        await finalizeModal(bulkUploadStatus, "Bulk upload completed!", "success", bulkUploadModal); 
       } else {
         showStatus(bulkUploadStatus, result.error || "Upload failed.", "error");
         submitBtn.style.display = "block";
