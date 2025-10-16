@@ -2,13 +2,13 @@ from flask import Flask, request, jsonify, session, redirect, render_template
 import os
 from UserManagementModule import UserManager as UM
 from DomainManagementEngine import DomainManagementEngine as DME
-import MonitoringSystem as ME
+from MonitoringSystem import MonitoringSystem as MS
 import logger
 
 logger = logger.setup_logger("app")
 user_manager = UM()
 domain_engine = DME()
-monitoring_system = ME.MonitoringSystem()
+monitoring_system = MS()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "group2_devops_project")
