@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const result = await res.json();
 
       if (result.ok) {
+        sessionStorage.removeItem("scanClicked"); 
         await finalizeModal(addDomainStatus, "Domain added successfully!", "success", addDomainModal);
       } else {
         showStatus(addDomainStatus, result.error || "Failed to add domain.", "error");
@@ -113,6 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const result = await res.json();
 
       if (result.ok) {
+        sessionStorage.removeItem("scanClicked"); 
         await finalizeModal(bulkUploadStatus, "Bulk upload completed!", "success", bulkUploadModal); 
       } else {
         showStatus(bulkUploadStatus, result.error || "Upload failed.", "error");

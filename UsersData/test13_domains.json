@@ -121,7 +121,7 @@
   },
   {
     "domain": "douyin.com",
-    "status": "Live",
+    "status": "Down",
     "ssl_expiration": "N/A",
     "ssl_issuer": "N/A"
   },
@@ -274,6 +274,12 @@
     "status": "Live",
     "ssl_expiration": "2026-03-26",
     "ssl_issuer": "DigiCert Inc"
+  },
+  {
+    "domain": "int-college.co.il",
+    "status": "Live",
+    "ssl_expiration": "2025-12-15",
+    "ssl_issuer": "Google Trust Services"
   },
   {
     "domain": "ipcc.ch",
