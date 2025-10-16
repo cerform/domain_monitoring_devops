@@ -2,8 +2,8 @@
   {
     "domain": "1688.com",
     "status": "Live",
-    "ssl_expiration": "N/A",
-    "ssl_issuer": "N/A"
+    "ssl_expiration": "2026-04-08",
+    "ssl_issuer": "GlobalSign nv-sa"
   },
   {
     "domain": "aarp.org",
@@ -20,20 +20,20 @@
   {
     "domain": "aliyuncs.com",
     "status": "Live",
-    "ssl_expiration": "2026-03-28",
-    "ssl_issuer": "GlobalSign nv-sa"
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "amazon-adsystem.com",
-    "status": "Live",
-    "ssl_expiration": "2026-02-11",
-    "ssl_issuer": "Amazon"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "analytics.google.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "b-cdn.net",
@@ -121,9 +121,9 @@
   },
   {
     "domain": "douyin.com",
-    "status": "Live",
-    "ssl_expiration": "2026-03-18",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "dzen.ru",
@@ -367,9 +367,9 @@
   },
   {
     "domain": "narod.ru",
-    "status": "Live",
-    "ssl_expiration": "2026-08-16",
-    "ssl_issuer": "GlobalSign nv-sa"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "navy.mil",
@@ -589,9 +589,9 @@
   },
   {
     "domain": "xinnet.com",
-    "status": "Live",
-    "ssl_expiration": "2026-03-30",
-    "ssl_issuer": "Xin Net Technology Corp."
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "ycombinator.com",

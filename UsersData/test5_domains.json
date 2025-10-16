@@ -308,14 +308,14 @@
   {
     "domain": "login.microsoftonline.com",
     "status": "Live",
-    "ssl_expiration": "2026-03-22",
-    "ssl_issuer": "Microsoft Corporation"
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "m.me",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "marketwatch.com",
@@ -356,8 +356,8 @@
   {
     "domain": "microsoft.com",
     "status": "Live",
-    "ssl_expiration": "N/A",
-    "ssl_issuer": "N/A"
+    "ssl_expiration": "2026-03-30",
+    "ssl_issuer": "Microsoft Corporation"
   },
   {
     "domain": "microsoftonline.com",

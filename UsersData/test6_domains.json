@@ -1,9 +1,9 @@
 [
   {
     "domain": "addthis.com",
-    "status": "Live",
-    "ssl_expiration": "2026-08-24",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "airbnb.com",
@@ -79,9 +79,9 @@
   },
   {
     "domain": "chat.whatsapp.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "chicagotribune.com",
@@ -97,15 +97,15 @@
   },
   {
     "domain": "cutt.ly",
-    "status": "Live",
-    "ssl_expiration": "2026-04-14",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "doubleclick.net",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "drupal.org",
@@ -139,9 +139,9 @@
   },
   {
     "domain": "fc2.com",
-    "status": "Live",
-    "ssl_expiration": "2026-07-08",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "fedoraproject.org",
@@ -548,8 +548,8 @@
   {
     "domain": "usc.edu",
     "status": "Live",
-    "ssl_expiration": "2025-11-18",
-    "ssl_issuer": "Let's Encrypt"
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "vmware.com",

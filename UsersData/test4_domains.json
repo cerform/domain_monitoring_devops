@@ -157,9 +157,9 @@
   },
   {
     "domain": "eepurl.com",
-    "status": "Live",
-    "ssl_expiration": "2026-02-27",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "eff.org",
@@ -193,15 +193,15 @@
   },
   {
     "domain": "fb.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "fb.me",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "fb.watch",
@@ -235,9 +235,9 @@
   },
   {
     "domain": "giphy.com",
-    "status": "Live",
-    "ssl_expiration": "2026-06-09",
-    "ssl_issuer": "GlobalSign nv-sa"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "go.id",
@@ -391,9 +391,9 @@
   },
   {
     "domain": "salesforce.com",
-    "status": "Live",
-    "ssl_expiration": "2025-11-13",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "sciencedaily.com",
@@ -415,9 +415,9 @@
   },
   {
     "domain": "statcounter.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-16",
-    "ssl_issuer": "Sectigo Limited"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "state.gov",
@@ -475,9 +475,9 @@
   },
   {
     "domain": "tripod.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-01",
-    "ssl_issuer": "Let's Encrypt"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "typeform.com",

@@ -13,9 +13,9 @@
   },
   {
     "domain": "adage.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-01",
-    "ssl_issuer": "Let's Encrypt"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "adobe.com",
@@ -92,8 +92,8 @@
   {
     "domain": "archive.org",
     "status": "Live",
-    "ssl_expiration": "2026-01-24",
-    "ssl_issuer": "GoDaddy.com, Inc."
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "arstechnica.com",
@@ -211,9 +211,9 @@
   },
   {
     "domain": "cdc.gov",
-    "status": "Live",
-    "ssl_expiration": "2026-05-19",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "chase.com",
@@ -313,9 +313,9 @@
   },
   {
     "domain": "duckduckgo.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-19",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "duke.edu",
@@ -373,9 +373,9 @@
   },
   {
     "domain": "facebook.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "fifa.com",
@@ -511,9 +511,9 @@
   },
   {
     "domain": "instagram.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "intel.com",
@@ -1069,9 +1069,9 @@
   },
   {
     "domain": "webmd.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-31",
-    "ssl_issuer": "Let's Encrypt"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "wellsfargo.com",

@@ -25,9 +25,9 @@
   },
   {
     "domain": "angelfire.com",
-    "status": "Live",
-    "ssl_expiration": "2026-01-01",
-    "ssl_issuer": "Let's Encrypt"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "archives.gov",
@@ -97,9 +97,9 @@
   },
   {
     "domain": "de-de.facebook.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "dictionary.com",
@@ -109,9 +109,9 @@
   },
   {
     "domain": "duckduckgo.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-19",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "earthlink.net",
@@ -199,9 +199,9 @@
   },
   {
     "domain": "ifeng.com",
-    "status": "Down",
-    "ssl_expiration": "N/A",
-    "ssl_issuer": "N/A"
+    "status": "Live",
+    "ssl_expiration": "2026-04-09",
+    "ssl_issuer": "TrustAsia Technologies, Inc."
   },
   {
     "domain": "ign.com",
@@ -397,7 +397,7 @@
   },
   {
     "domain": "privacyshield.gov",
-    "status": "Down",
+    "status": "Live",
     "ssl_expiration": "N/A",
     "ssl_issuer": "N/A"
   },
@@ -409,9 +409,9 @@
   },
   {
     "domain": "qualtrics.com",
-    "status": "Live",
-    "ssl_expiration": "2026-01-02",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "rt.com",
@@ -439,9 +439,9 @@
   },
   {
     "domain": "semrush.com",
-    "status": "Live",
-    "ssl_expiration": "2026-02-11",
-    "ssl_issuer": "Sectigo Limited"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "sky.com",

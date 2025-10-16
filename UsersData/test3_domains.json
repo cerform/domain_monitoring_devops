@@ -14,8 +14,8 @@
   {
     "domain": "aliyun.com",
     "status": "Live",
-    "ssl_expiration": "N/A",
-    "ssl_issuer": "N/A"
+    "ssl_expiration": "2026-09-05",
+    "ssl_issuer": "GlobalSign nv-sa"
   },
   {
     "domain": "allaboutcookies.org",
@@ -80,8 +80,8 @@
   {
     "domain": "ca.gov",
     "status": "Live",
-    "ssl_expiration": "2025-12-17",
-    "ssl_issuer": "DigiCert, Inc."
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "cambridge.org",
@@ -295,9 +295,9 @@
   },
   {
     "domain": "mailchi.mp",
-    "status": "Live",
-    "ssl_expiration": "2025-12-03",
-    "ssl_issuer": "Let's Encrypt"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "mailchimp.com",
@@ -355,9 +355,9 @@
   },
   {
     "domain": "networkadvertising.org",
-    "status": "Live",
-    "ssl_expiration": "2026-08-05",
-    "ssl_issuer": "Amazon"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "office365.com",
@@ -481,7 +481,7 @@
   },
   {
     "domain": "taobao.com",
-    "status": "Down",
+    "status": "Live",
     "ssl_expiration": "N/A",
     "ssl_issuer": "N/A"
   },
@@ -547,15 +547,15 @@
   },
   {
     "domain": "web.whatsapp.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "webmd.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-31",
-    "ssl_issuer": "Let's Encrypt"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "weforum.org",

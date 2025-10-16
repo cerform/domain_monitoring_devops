@@ -31,9 +31,9 @@
   },
   {
     "domain": "api.whatsapp.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "apple.com",
@@ -50,8 +50,8 @@
   {
     "domain": "archive.org",
     "status": "Live",
-    "ssl_expiration": "2026-01-24",
-    "ssl_issuer": "GoDaddy.com, Inc."
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "baidu.com",
@@ -104,8 +104,8 @@
   {
     "domain": "cpanel.net",
     "status": "Live",
-    "ssl_expiration": "2026-01-26",
-    "ssl_issuer": "Sectigo Limited"
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "creativecommons.org",
@@ -157,9 +157,9 @@
   },
   {
     "domain": "facebook.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "flickr.com",
@@ -217,9 +217,9 @@
   },
   {
     "domain": "googletagmanager.com",
-    "status": "Live",
-    "ssl_expiration": "2025-12-15",
-    "ssl_issuer": "Google Trust Services"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "gravatar.com",
@@ -235,9 +235,9 @@
   },
   {
     "domain": "instagram.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "itunes.apple.com",
@@ -469,9 +469,9 @@
   },
   {
     "domain": "tiktok.com",
-    "status": "Live",
-    "ssl_expiration": "2026-06-15",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "tinyurl.com",
@@ -511,9 +511,9 @@
   },
   {
     "domain": "wa.me",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "web.archive.org",
@@ -523,9 +523,9 @@
   },
   {
     "domain": "whatsapp.com",
-    "status": "Live",
-    "ssl_expiration": "2025-10-23",
-    "ssl_issuer": "DigiCert Inc"
+    "status": "Down",
+    "ssl_expiration": "N/A",
+    "ssl_issuer": "N/A"
   },
   {
     "domain": "who.int",
