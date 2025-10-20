@@ -8,10 +8,10 @@ function check_result() {
     echo "[SUCCESS] $1 succeeded."
 }
 
-sudo apt update -y &>dev/null && sudo apt upgrade -y &>dev/null 
+sudo apt update -y &>/dev/null && sudo apt upgrade -y &>/dev/null 
 check_result "System update and upgrade Installed"
 
-sudo apt install python3.12-venv -y &>dev/null
+sudo apt install python3.12-venv -y &>/dev/null
 check_result "Venv Dependency installed"
 
 
