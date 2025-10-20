@@ -17,7 +17,7 @@ check_result "Venv Dependency installed"
 
 
 if [ ! -d "/opt/domain_monitoring_devops" ]; then
-    git clone https://github.com/MatanItzhaki12/domain_monitoring_devops.git
+    git clone https://github.com/MatanItzhaki12/domain_monitoring_devops.git &>/dev/null 
     check_result "Cloned Git Repository"   
 else echo "Repo already exists"
 fi 
@@ -35,7 +35,7 @@ check_result "Venv created"
 source /opt/domain_monitoring_devops/_venv_/bin/activate
 check_result "Venv activated"
 
-pip install -r /opt/domain_monitoring_devops/requirements.txt
+pip install -r /opt/domain_monitoring_devops/requirements.txt &>/dev/null 
 check_result "Requirements installed to venv"
 
 cat<<EOF>> /opt/domain_monitoring_devops/run.sh
