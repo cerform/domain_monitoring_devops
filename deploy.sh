@@ -16,11 +16,12 @@ sudo apt install python3.12-venv -y &>/dev/null
 check_result "Venv Dependency installed"
 
 
-if [ ! -d "/opt/domain_monitoring_devops"]; then
+if [ ! -d "/opt/domain_monitoring_devops" ]; then
     git clone https://github.com/MatanItzhaki12/domain_monitoring_devops.git
-    check_result "Cloned Git Repository"
-fi
+    check_result "Cloned Git Repository"   
 else echo "Repo already exists"
+fi 
+
 
 # sudo chmod 777 domain_monitoring_devops
 # check_result "Permissions changed"
