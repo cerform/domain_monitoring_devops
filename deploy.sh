@@ -9,8 +9,8 @@ function check_result() {
 }
 echo "Starting system updates and upgrades"
 
-sudo apt update -y &>/dev/null && sudo apt upgrade -y &>/dev/null 
-check_result "System update and upgrade Installed"
+sudo apt update -y &>/dev/null 
+check_result "System update completed"
 
 sudo apt install python3.12-venv -y &>/dev/null
 check_result "Venv Dependency installed"
