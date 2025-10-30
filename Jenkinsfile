@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo "✅ Build triggered by webhook!"
+                echo "Build triggered by webhook!"
             }
         }
     }
