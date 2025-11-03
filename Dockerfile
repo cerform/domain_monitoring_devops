@@ -3,7 +3,7 @@ RUN mkdir /domain_monitoring_system
 RUN chmod 777 /domain_monitoring_system
 
 
-COPY ./domain_monitoring_system /domain_monitoring_system
+COPY . /domain_monitoring_system
 
 
 WORKDIR /domain_monitoring_system
