@@ -189,13 +189,6 @@ def scan_domains():
         logger.error(f"Error during scan: {e}")
         return jsonify({"ok": False, "error": str(e)}), 500
 
-# ---------------------------
-# Static passthrough (top-level files)
-# ---------------------------
-@app.route('/<filename>', methods=['GET'])
-def static_files(filename):
-    return app.send_static_file(filename)
-
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=8080)
