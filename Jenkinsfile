@@ -2,70 +2,85 @@ pipeline {
     agent { label 'Slave' }
 
     environment {
-        IMAGE_NAME = "monitoring-system"
-        IMAGE_TAG = "${env.BUILD_NUMBER}"
-        REGISTRY = "docker.io/symmetramain/"
+        REGISTRY = "symmetramain"
+        IMAGE_NAME = "etcsys"
+        TAG = "${env.BUILD_NUMBER}"
+    }
+
+    options {
+        timestamps()
     }
 
     stages {
-        stage('Checkout') {
+
+        stage('Checkout from GitHub') {
             steps {
+                echo "Cloning GitHub repository..."
                 git branch: 'main', url: 'https://github.com/cerform/domain_monitoring_devops.git'
             }
         }
 
-        stage('Build temporary image') {
+        stage('Build Temporary Docker Image') {
             steps {
+                echo "Building temporary Docker image..."
                 sh '''
-                echo " Building temporary Docker image..."
-                docker build -t $IMAGE_NAME:$IMAGE_TAG .
+                docker build -t $REGISTRY/$IMAGE_NAME:$TAG .
                 '''
             }
         }
 
-        stage('Run temporary container for tests') {
+        stage('Run Temporary Container') {
             steps {
-                sh '''
                 echo "Starting container for test execution..."
-                docker run --rm -d --name test_container $IMAGE_NAME:$IMAGE_TAG tail -f /dev/null
+                sh '''
+                docker run -d --name temp_container $REGISTRY/$IMAGE_NAME:$TAG tail -f /dev/null
                 '''
             }
         }
 
         stage('Testing Suite') {
-            steps {
-                sh '''
-                echo "Running Selenium & Pytest tests..."
-                docker exec test_container pytest tests/ --maxfail=1 --disable-warnings -q || exit 1
-                '''
+            parallel {
+                stage('Selenium UI Tests') {
+                    steps {
+                        echo "Running Selenium tests..."
+                        sh '''
+                        docker exec temp_container pytest tests/selenium_tests --maxfail=1 --disable-warnings -q || exit 1
+                        '''
+                    }
+                }
+                stage('Pytest Backend Tests') {
+                    steps {
+                        echo "Running backend Pytest tests..."
+                        sh '''
+                        docker exec temp_container pytest tests/api_tests --maxfail=1 --disable-warnings -q || exit 1
+                        '''
+                    }
+                }
             }
         }
 
-        stage('Publish or Report') {
+        stage('Publish to DockerHub') {
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
             steps {
-                script {
-                    try {
-                        sh '''
-                        echo "Tests passed. Pushing image to DockerHub..."
-                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                        docker tag $IMAGE_NAME:$IMAGE_TAG $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
-                        docker push $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
-                        '''
-                    } catch (err) {
-                        echo "Tests failed. Creating failure report..."
-                        sh 'echo "Build #${BUILD_NUMBER} failed" > failure_report.txt'
-                        currentBuild.result = 'FAILURE'
-                    }
+                echo "Pushing image to DockerHub..."
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                    docker tag $REGISTRY/$IMAGE_NAME:$TAG $DOCKER_USER/$IMAGE_NAME:$TAG
+                    docker push $DOCKER_USER/$IMAGE_NAME:$TAG
+                    '''
                 }
             }
         }
 
         stage('Cleanup') {
             steps {
+                echo "Cleaning up temporary resources..."
                 sh '''
-                echo "Cleaning temporary resources..."
-                docker rm -f test_container || true
-                docker rmi $IMAGE_NAME:$IMAGE_TAG || true
+                docker rm -f temp_container || true
+                docker rmi $REGISTRY/$IMAGE_NAME:$TAG || true
                 '''
             }
         }
@@ -73,10 +88,18 @@ pipeline {
 
     post {
         success {
-            echo "Build completed successfully"
+            echo "SUCCESS: All tests passed. Image pushed to DockerHub as $REGISTRY/$IMAGE_NAME:$TAG"
         }
         failure {
-            echo "Build failed — check failure_report.txt"
+            echo "FAILURE: One or more stages failed. Check logs for details."
+            sh '''
+            echo "Collecting failure logs..."
+            docker logs temp_container || true
+            '''
+        }
+        always {
+            echo "Generating report and cleaning workspace..."
+            deleteDir()
         }
     }
 }
