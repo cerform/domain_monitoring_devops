@@ -22,20 +22,16 @@ pipeline {
         stage('Get Commit ID') {
             steps {
                 script {
-                    // Get commit hash safely
+                    // Get current commit ID
                     def tag = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
                     echo "Commit ID: ${tag}"
 
-                    // Safe build number fallback
+                    // Use safe build number
                     def buildNum = (env.BUILD_NUMBER ?: "0").toInteger()
-                    echo "Build Number: ${buildNum}"
-
-                    // Create readable version
                     def shortTag = tag.take(8)
                     VERSION_TAG = "build-${buildNum}-${shortTag}"
-                    echo "Current version: ${VERSION_TAG}"
+                    echo "Build version: ${VERSION_TAG}"
 
-                    // Export to environment for next stages
                     env.VERSION_TAG = VERSION_TAG
                     env.TAG = shortTag
                 }
@@ -86,9 +82,9 @@ pipeline {
             when { expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' } }
             steps {
                 script {
-                    echo "Promoting version..."
+                    echo "Promoting image version..."
 
-                    // Get latest version tag safely
+                    // Get current latest version tag
                     def currentVersion = sh(
                         script: "git tag --sort=-v:refname | grep -Eo 'v[0-9]+\\.[0-9]+\\.[0-9]+' | head -n1 || echo 'v0.0.0'",
                         returnStdout: true
@@ -96,35 +92,35 @@ pipeline {
 
                     echo "Current version: ${currentVersion}"
 
-                    // Split safely
+                    // Parse safely
                     def parts = currentVersion.replace('v', '').tokenize('.')
                     def major = parts.size() > 0 ? parts[0].toInteger() : 0
                     def minor = parts.size() > 1 ? parts[1].toInteger() : 0
                     def patch = parts.size() > 2 ? parts[2].toInteger() : 0
-
                     def newVersion = "v${major}.${minor}.${patch + 1}"
-                    echo "romoting image version to ${newVersion}"
+                    echo "New version: ${newVersion}"
 
-                    // Push to DockerHub
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
-                                                     usernameVariable: 'DOCKER_USER',
-                                                     passwordVariable: 'DOCKER_PASS')]) {
+                    // Push Docker image securely
+                    withDockerRegistry([credentialsId: 'dockerhub-creds', url: 'https://index.docker.io/v1/']) {
                         sh """
-                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                        docker tag $REGISTRY/$IMAGE_NAME:${TAG} $DOCKER_USER/$IMAGE_NAME:${newVersion}
-                        docker tag $REGISTRY/$IMAGE_NAME:${TAG} $DOCKER_USER/$IMAGE_NAME:latest
-                        docker push $DOCKER_USER/$IMAGE_NAME:${newVersion}
-                        docker push $DOCKER_USER/$IMAGE_NAME:latest
+                        docker tag $REGISTRY/$IMAGE_NAME:${TAG} $REGISTRY/$IMAGE_NAME:${newVersion}
+                        docker tag $REGISTRY/$IMAGE_NAME:${TAG} $REGISTRY/$IMAGE_NAME:latest
+                        docker push $REGISTRY/$IMAGE_NAME:${newVersion}
+                        docker push $REGISTRY/$IMAGE_NAME:latest
                         """
                     }
 
-                    // Tag release in GitHub
-                    sh """
-                    git config --global user.email "jenkins@ci.local"
-                    git config --global user.name "Jenkins CI"
-                    git tag -a ${newVersion} -m 'Release ${newVersion}'
-                    git push origin ${newVersion}
-                    """
+                    // Push Git tag securely to GitHub
+                    withCredentials([usernamePassword(credentialsId: 'github-token',
+                                                     usernameVariable: 'GIT_USER',
+                                                     passwordVariable: 'GIT_TOKEN')]) {
+                        sh """
+                        git config --global user.email "jenkins@ci.local"
+                        git config --global user.name "Jenkins CI"
+                        git tag -a ${newVersion} -m 'Release ${newVersion}'
+                        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/cerform/domain_monitoring_devops.git ${newVersion}
+                        """
+                    }
                 }
             }
         }
@@ -132,11 +128,11 @@ pipeline {
 
     post {
         failure {
-            echo "Tests failed. Displaying logs..."
+            echo "Tests failed. Displaying container logs..."
             sh "docker logs $CONTAINER_NAME || true"
         }
         always {
-            echo "Cleaning up Docker environment..."
+            echo "Cleaning up environment..."
             sh '''
             docker rm -f $CONTAINER_NAME || true
             docker rmi $REGISTRY/$IMAGE_NAME:${TAG} || true
