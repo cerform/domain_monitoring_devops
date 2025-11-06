@@ -1,43 +1,53 @@
-# Use a lightweight official Python image
+# -------------------------------
+# Base image: lightweight Python 3.12
+# -------------------------------
 FROM python:3.12-slim
 
-# Set the working directory
-WORKDIR /domain_monitoring_system
-
-# Copy dependency file
-COPY requirements.txt .
-
-# Install dependencies, including pytest and selenium
-RUN pip install --no-cache-dir -r requirements.txt pytest selenium
-
-# Install Google Chrome and matching ChromeDriver
-RUN apt-get update && apt-get install -y wget gnupg unzip curl ca-certificates \
-    && mkdir -p /etc/apt/keyrings \
-    && wget -q -O /etc/apt/keyrings/google-linux-signing-key.gpg https://dl.google.com/linux/linux_signing_key.pub \
-    && echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-linux-signing-key.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
-    && apt-get update && apt-get install -y google-chrome-stable \
-    \
-    # Get Chrome major version (e.g. 142)
-    && CHROME_VERSION=$(google-chrome --version | grep -oE '[0-9]+' | head -1) \
-    \
-    # Fetch matching ChromeDriver version automatically
-    && DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_${CHROME_VERSION}") \
-    && wget -O /tmp/chromedriver.zip "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${DRIVER_VERSION}/linux64/chromedriver-linux64.zip" \
-    && unzip /tmp/chromedriver.zip -d /usr/local/bin/ \
-    && mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver \
-    && chmod +x /usr/local/bin/chromedriver \
-    && rm -rf /var/lib/apt/lists/* /tmp/*
-
-
-# Copy project files
-COPY . .
-
-# Expose default port
-EXPOSE 5000
-
+# -------------------------------
 # Environment variables
+# -------------------------------
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
+ENV DEBIAN_FRONTEND=noninteractive
 
+# -------------------------------
+# Pre-clean and install dependencies
+# -------------------------------
+# The cleanup before installation ensures minimal layer size
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && apt-get update && apt-get install -y --no-install-recommends \
+       chromium chromium-driver \
+       curl wget unzip gnupg ca-certificates \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# -------------------------------
+# Environment variables for Selenium
+# -------------------------------
+ENV CHROME_BIN=/usr/bin/chromium
+ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
+
+# -------------------------------
+# Set working directory
+# -------------------------------
+WORKDIR /app
+
+# -------------------------------
+# Copy Python dependencies
+# -------------------------------
+COPY requirements.txt .
+
+# -------------------------------
+# Install Python packages (pytest, selenium, etc.)
+# -------------------------------
+RUN pip install --no-cache-dir -r requirements.txt
+
+# -------------------------------
+# Copy application code
+# -------------------------------
+COPY . .
+
+# -------------------------------
 # Default command
-CMD ["python", "app.py"]
+# -------------------------------
+# Keeps container alive for Jenkins tests
+CMD ["tail", "-f", "/dev/null"]
