@@ -10,17 +10,24 @@ COPY requirements.txt .
 # Install dependencies, including pytest and selenium
 RUN pip install --no-cache-dir -r requirements.txt pytest selenium
 
-# Install Google Chrome and ChromeDriver (modern method — no apt-key)
+# Install Google Chrome and matching ChromeDriver
 RUN apt-get update && apt-get install -y wget gnupg unzip curl ca-certificates \
     && mkdir -p /etc/apt/keyrings \
     && wget -q -O /etc/apt/keyrings/google-linux-signing-key.gpg https://dl.google.com/linux/linux_signing_key.pub \
     && echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-linux-signing-key.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
     && apt-get update && apt-get install -y google-chrome-stable \
-    && LATEST_CHROMEDRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) \
-    && wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/${LATEST_CHROMEDRIVER_VERSION}/chromedriver_linux64.zip \
+    \
+    # Get Chrome major version (e.g. 142)
+    && CHROME_VERSION=$(google-chrome --version | grep -oE '[0-9]+' | head -1) \
+    \
+    # Fetch matching ChromeDriver version automatically
+    && DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_${CHROME_VERSION}") \
+    && wget -O /tmp/chromedriver.zip "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${DRIVER_VERSION}/linux64/chromedriver-linux64.zip" \
     && unzip /tmp/chromedriver.zip -d /usr/local/bin/ \
+    && mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver \
     && chmod +x /usr/local/bin/chromedriver \
     && rm -rf /var/lib/apt/lists/* /tmp/*
+
 
 # Copy project files
 COPY . .
