@@ -14,7 +14,7 @@ pipeline {
 
         stage('Checkout Source Code') {
             steps {
-                echo "Cloning repository from GitHub..."
+                echo "📦 Cloning repository from GitHub..."
                 git branch: 'main', url: "${REPO_URL}"
             }
         }
@@ -22,30 +22,30 @@ pipeline {
         stage('Get Commit ID') {
             steps {
                 script {
-                    TAG = sh(
+                    env.TAG = sh(
                         script: "git rev-parse HEAD | tr -d '\\n' | tr -d '\\r'",
                         returnStdout: true
                     ).trim()
 
-                    if (!TAG?.trim()) {
-                        error("Commit ID not found — cannot continue build.")
+                    if (!env.TAG?.trim()) {
+                        error("❌ Commit ID not found — cannot continue build.")
                     }
 
-                    echo " Docker image tag (commit ID): '${TAG}'"
+                    echo "🆕 Docker image tag (commit ID): '${env.TAG}'"
                 }
             }
         }
 
         stage('Build Docker Image (temp)') {
             steps {
-                echo "Building temporary Docker image with tag ${TAG}"
-                sh "docker build -t $REGISTRY/$IMAGE_NAME:${TAG} ."
+                echo "🔧 Building temporary Docker image with tag ${env.TAG}"
+                sh "docker build -t $REGISTRY/$IMAGE_NAME:${env.TAG} ."
             }
         }
 
         stage('Run Container for Tests') {
             steps {
-                echo "Starting temporary container..."
+                echo "🚀 Starting temporary container..."
                 sh '''
                 docker rm -f $CONTAINER_NAME || true
                 docker run -d --name $CONTAINER_NAME $REGISTRY/$IMAGE_NAME:${TAG} tail -f /dev/null
@@ -57,7 +57,7 @@ pipeline {
             parallel {
                 stage('Backend API Tests') {
                     steps {
-                        echo "Running backend Pytest tests..."
+                        echo "🧪 Running backend Pytest tests..."
                         sh '''
                         docker exec $CONTAINER_NAME pytest tests/api_tests --maxfail=1 --disable-warnings -q || exit 1
                         '''
@@ -65,7 +65,7 @@ pipeline {
                 }
                 stage('UI Selenium Tests') {
                     steps {
-                        echo " Running Selenium UI tests..."
+                        echo "🧠 Running Selenium UI tests..."
                         sh '''
                         docker exec $CONTAINER_NAME pytest tests/selenium_tests --maxfail=1 --disable-warnings -q || exit 1
                         '''
@@ -78,20 +78,17 @@ pipeline {
             when { expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' } }
             steps {
                 script {
-                    // Getting Lts commit ID from Git
                     def currentVersion = sh(
                         script: "git tag --sort=-v:refname | grep -Eo 'v[0-9]+\\.[0-9]+\\.[0-9]+' | head -n1 || echo 'v0.0.0'",
                         returnStdout: true
                     ).trim()
 
-                    echo "Current version: ${currentVersion}"
+                    echo "🔢 Current version: ${currentVersion}"
 
-                    // Changing Path
                     def (major, minor, patch) = currentVersion.replace('v','').tokenize('.')
                     def newVersion = "v${major}.${minor}.${patch.toInteger() + 1}"
-                    echo "Promoting image version to ${newVersion}"
+                    echo "⬆️ Promoting image version to ${newVersion}"
 
-                    // Public to DockerHub
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh """
                         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -102,7 +99,6 @@ pipeline {
                         """
                     }
 
-                    // Adding new tag to Git
                     sh "git tag -a ${newVersion} -m 'Release ${newVersion}'"
                     sh "git push origin ${newVersion}"
                 }
@@ -112,11 +108,11 @@ pipeline {
 
     post {
         failure {
-            echo "Tests failed. Displaying logs..."
+            echo "❌ Tests failed. Displaying logs..."
             sh "docker logs $CONTAINER_NAME || true"
         }
         always {
-            echo "Cleaning up Docker environment..."
+            echo "🧹 Cleaning up Docker environment..."
             sh '''
             docker rm -f $CONTAINER_NAME || true
             docker rmi $REGISTRY/$IMAGE_NAME:${TAG} || true
@@ -125,7 +121,7 @@ pipeline {
             deleteDir()
         }
         success {
-            echo " Build, tests, and push completed successfully for commit ${TAG}"
+            echo "✅ Build, tests, and push completed successfully for commit ${TAG}"
         }
     }
 }
