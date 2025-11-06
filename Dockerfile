@@ -4,11 +4,11 @@ FROM python:3.12-slim
 # Set the working directory
 WORKDIR /domain_monitoring_system
 
-# Copy Python dependencies
+# Copy dependency file
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install dependencies, including pytest and selenium
+RUN pip install --no-cache-dir -r requirements.txt pytest selenium
 
 # Install Google Chrome and ChromeDriver (modern method — no apt-key)
 RUN apt-get update && apt-get install -y wget gnupg unzip curl ca-certificates \
@@ -22,15 +22,15 @@ RUN apt-get update && apt-get install -y wget gnupg unzip curl ca-certificates \
     && chmod +x /usr/local/bin/chromedriver \
     && rm -rf /var/lib/apt/lists/* /tmp/*
 
-# Copy the rest of the project files into the container
+# Copy project files
 COPY . .
 
-# Expose a default port (useful if the app runs a web service)
+# Expose default port
 EXPOSE 5000
 
-# Set environment variables for Python
+# Environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
-# Define the default container startup command
+# Default command
 CMD ["python", "app.py"]
