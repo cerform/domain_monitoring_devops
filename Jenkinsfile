@@ -22,24 +22,32 @@ pipeline {
         stage('Get Commit ID') {
             steps {
                 script {
-                    env.TAG = sh(
-                        script: "git rev-parse HEAD | tr -d '\\n' | tr -d '\\r'",
-                        returnStdout: true
-                    ).trim()
+                    // Get commit hash safely
+                    def tag = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
+                    echo "Commit ID: ${tag}"
 
-                    if (!env.TAG?.trim()) {
-                        error("Commit ID not found — cannot continue build.")
-                    }
+                    // Safe build number fallback
+                    def buildNum = (env.BUILD_NUMBER ?: "0").toInteger()
+                    echo "Build Number: ${buildNum}"
 
-                    echo "Docker image tag (commit ID): '${env.TAG}'"
+                    // Create readable version
+                    def shortTag = tag.take(8)
+                    VERSION_TAG = "build-${buildNum}-${shortTag}"
+                    echo "Current version: ${VERSION_TAG}"
+
+                    // Export to environment for next stages
+                    env.VERSION_TAG = VERSION_TAG
+                    env.TAG = shortTag
                 }
             }
         }
 
         stage('Build Docker Image (temp)') {
             steps {
-                echo "Building temporary Docker image with tag ${env.TAG}"
-                sh "docker build -t $REGISTRY/$IMAGE_NAME:${env.TAG} ."
+                echo "Building Docker image: ${REGISTRY}/${IMAGE_NAME}:${TAG}"
+                sh """
+                docker build -t $REGISTRY/$IMAGE_NAME:${TAG} .
+                """
             }
         }
 
@@ -78,6 +86,9 @@ pipeline {
             when { expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' } }
             steps {
                 script {
+                    echo "Promoting version..."
+
+                    // Get latest version tag safely
                     def currentVersion = sh(
                         script: "git tag --sort=-v:refname | grep -Eo 'v[0-9]+\\.[0-9]+\\.[0-9]+' | head -n1 || echo 'v0.0.0'",
                         returnStdout: true
@@ -85,11 +96,19 @@ pipeline {
 
                     echo "Current version: ${currentVersion}"
 
-                    def (major, minor, patch) = currentVersion.replace('v','').tokenize('.')
-                    def newVersion = "v${major}.${minor}.${patch.toInteger() + 1}"
-                    echo "Promoting image version to ${newVersion}"
+                    // Split safely
+                    def parts = currentVersion.replace('v', '').tokenize('.')
+                    def major = parts.size() > 0 ? parts[0].toInteger() : 0
+                    def minor = parts.size() > 1 ? parts[1].toInteger() : 0
+                    def patch = parts.size() > 2 ? parts[2].toInteger() : 0
 
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    def newVersion = "v${major}.${minor}.${patch + 1}"
+                    echo "romoting image version to ${newVersion}"
+
+                    // Push to DockerHub
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
+                                                     usernameVariable: 'DOCKER_USER',
+                                                     passwordVariable: 'DOCKER_PASS')]) {
                         sh """
                         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                         docker tag $REGISTRY/$IMAGE_NAME:${TAG} $DOCKER_USER/$IMAGE_NAME:${newVersion}
@@ -99,8 +118,13 @@ pipeline {
                         """
                     }
 
-                    sh "git tag -a ${newVersion} -m 'Release ${newVersion}'"
-                    sh "git push origin ${newVersion}"
+                    // Tag release in GitHub
+                    sh """
+                    git config --global user.email "jenkins@ci.local"
+                    git config --global user.name "Jenkins CI"
+                    git tag -a ${newVersion} -m 'Release ${newVersion}'
+                    git push origin ${newVersion}
+                    """
                 }
             }
         }
@@ -116,12 +140,9 @@ pipeline {
             sh '''
             docker rm -f $CONTAINER_NAME || true
             docker rmi $REGISTRY/$IMAGE_NAME:${TAG} || true
-            docker system prune -f || true
+            docker system prune -af --volumes || true
             '''
             deleteDir()
-        }
-        success {
-            echo " Build, tests, and push completed successfully for commit ${TAG}"
         }
     }
 }
