@@ -6,6 +6,8 @@ pipeline {
         IMAGE_NAME = "etcsys"
         REPO_URL = "https://github.com/cerform/domain_monitoring_devops.git"
         CONTAINER_NAME = "temp_container_${env.BUILD_NUMBER}"
+        DOCKER_RUN_NAME = "${WORKSPACE}"
+        DOCKER_IMAGE = "${REGISTRY}/${IMAGE_NAME}"
     }
 
     options { timestamps() }
@@ -14,13 +16,13 @@ pipeline {
 
         stage('Verify Docker Availability') {
             steps {
-                echo "Checking Docker installation..."
-                sh 'which docker || echo "Docker not found in PATH"'
-                sh 'docker --version || echo "Docker is not installed or not running"'
+                echo "🔍 Проверка установки Docker..."
+                sh 'which docker || echo "❌ Docker не найден в PATH"'
+                sh 'docker --version || echo "❌ Docker не установлен или не запущен"'
             }
         }
 
-        stage('On Push → Get Latest Commit ID') {
+        stage('Получить последний коммит') {
             steps {
                 script {
                     TAG = sh(
@@ -29,31 +31,31 @@ pipeline {
                     ).trim()
 
                     if (!TAG?.trim()) {
-                        error("Commit ID not found — cannot continue build.")
+                        error("❌ Commit ID не найден — остановка сборки.")
                     }
-                    echo "Latest commit ID: '${TAG}'"
+                    echo "✅ Последний commit ID: '${TAG}'"
                 }
             }
         }
 
-        stage('Checkout Source Code') {
+        stage('Клонировать репозиторий') {
             steps {
                 git branch: 'main', url: "${REPO_URL}"
             }
         }
 
-        stage('Build Docker Image (temp)') {
+        stage('Собрать Docker-образ') {
             steps {
-                echo "Building temporary Docker image with tag ${TAG}"
+                echo "🐳 Сборка временного Docker-образа с тегом ${TAG}"
                 retry(2) {
                     sh "docker build -t $REGISTRY/$IMAGE_NAME:${TAG} ."
                 }
             }
         }
 
-        stage('Run Container for Tests') {
+        stage('Запустить контейнер для тестов') {
             steps {
-                echo "Starting temporary container..."
+                echo "🚀 Запуск временного контейнера..."
                 sh '''
                 docker rm -f $CONTAINER_NAME || true
                 docker run -d --name $CONTAINER_NAME $REGISTRY/$IMAGE_NAME:${TAG} tail -f /dev/null
@@ -61,28 +63,22 @@ pipeline {
             }
         }
 
-        stage('Execute Test Suite') {
-            parallel {
-                stage('Backend API Tests') {
-                    steps {
-                        echo "Running backend Pytest tests..."
-                        sh '''
-                        docker exec $CONTAINER_NAME pytest tests/api_tests --maxfail=1 --disable-warnings -q || exit 1
-                        '''
-                    }
-                }
-                stage('UI Selenium Tests') {
-                    steps {
-                        echo "Running Selenium UI tests..."
-                        sh '''
-                        docker exec $CONTAINER_NAME pytest tests/selenium_tests --maxfail=1 --disable-warnings -q || exit 1
-                        '''
-                    }
-                }
+        stage('Выполнить backend-e2e тесты') {
+            steps {
+                echo "🧪 Запуск e2e тестов в изолированном контейнере..."
+                sh '''
+                echo "🔍 Проверка node_modules и Nx..."
+                docker run --rm -v $DOCKER_RUN_NAME:/app $DOCKER_IMAGE:$TAG \
+                sh -c 'cd /app && ls node_modules && npx nx --version'
+
+                echo "🚦 Запуск тестов и логирование..."
+                docker run --rm -v $DOCKER_RUN_NAME:/app $DOCKER_IMAGE:$TAG \
+                sh -c 'cd /app && npm run test:e2e' > e2e_output.log || (echo "❌ Тесты завершились с ошибкой. Лог:" && cat e2e_output.log && exit 1)
+                '''
             }
         }
 
-        stage('Promote Version and Push to DockerHub') {
+        stage('Промоут версии и пуш в DockerHub') {
             when { expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' } }
             steps {
                 script {
@@ -91,11 +87,11 @@ pipeline {
                         returnStdout: true
                     ).trim()
 
-                    echo "Current version: ${currentVersion}"
+                    echo "📌 Текущая версия: ${currentVersion}"
 
                     def (major, minor, patch) = currentVersion.replace('v','').tokenize('.')
                     def newVersion = "v${major}.${minor}.${patch.toInteger() + 1}"
-                    echo "Promoting image version to ${newVersion}"
+                    echo "🚀 Повышение версии до ${newVersion}"
 
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh """
@@ -116,16 +112,16 @@ pipeline {
 
     post {
         failure {
-            echo "Tests failed. Displaying logs..."
+            echo "❌ Тесты завершились с ошибкой. Вывод логов контейнера..."
             sh "docker logs $CONTAINER_NAME || true"
         }
         always {
-            echo "Cleaning up Docker environment..."
+            echo "🧹 Очистка Docker-среды..."
             sh '''
-            echo "Listing containers before cleanup:"
+            echo "📋 Список контейнеров перед очисткой:"
             docker ps -a || true
 
-            echo "Listing images before cleanup:"
+            echo "📋 Список образов перед очисткой:"
             docker images || true
 
             docker rm -f $CONTAINER_NAME || true
