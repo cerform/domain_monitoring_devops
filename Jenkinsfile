@@ -15,7 +15,14 @@ pipeline {
         stage('On Push → Get Latest Commit ID') {
             steps {
                 script {
-                    TAG = sh(script: "git ls-remote ${REPO_URL} refs/heads/main | cut -f1", returnStdout: true).trim()
+                    TAG = sh(
+                        script: "git ls-remote ${REPO_URL} refs/heads/main | cut -f1 | tr -d '\\n'",
+                        returnStdout: true
+                    ).trim()
+
+                    if (!TAG?.trim()) {
+                        error("Commit ID not found — cannot continue build.")
+                    }
                     echo "Latest commit ID: ${TAG}"
                 }
             }
@@ -29,7 +36,7 @@ pipeline {
 
         stage('Build Docker Image (temp)') {
             steps {
-                echo "🔧 Building temporary Docker image with tag ${TAG}"
+                echo "Building temporary Docker image with tag ${TAG}"
                 sh "docker build -t $REGISTRY/$IMAGE_NAME:${TAG} ."
             }
         }
@@ -70,13 +77,17 @@ pipeline {
             steps {
                 script {
                     // Get latest semantic version (vX.Y.Z)
-                    def currentVersion = sh(script: "git tag --sort=-v:refname | grep -Eo 'v[0-9]+\\.[0-9]+\\.[0-9]+' | head -n1 || echo 'v0.0.0'", returnStdout: true).trim()
+                    def currentVersion = sh(
+                        script: "git tag --sort=-v:refname | grep -Eo 'v[0-9]+\\.[0-9]+\\.[0-9]+' | head -n1 || echo 'v0.0.0'",
+                        returnStdout: true
+                    ).trim()
+
                     echo "Current version: ${currentVersion}"
 
                     // Bump patch version
                     def (major, minor, patch) = currentVersion.replace('v','').tokenize('.')
                     def newVersion = "v${major}.${minor}.${patch.toInteger() + 1}"
-                    echo " Promoting image version to ${newVersion}"
+                    echo "Promoting image version to ${newVersion}"
 
                     // Push new version to DockerHub
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
