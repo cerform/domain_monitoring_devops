@@ -4,7 +4,7 @@ pipeline {
     environment {
         REGISTRY = "symmetramain"
         IMAGE_NAME = "etcsys"
-        TAG = "${env.BUILD_NUMBER}"
+        TAG = "temp_container_${env.BUILD_NUMBER}"
     }
 
     options {
@@ -17,9 +17,12 @@ pipeline {
             steps {
                 echo "Cloning GitHub repository..."
                 git branch: 'main', url: 'https://github.com/cerform/domain_monitoring_devops.git'
+                scripts{
+                 TAG = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+                 echo "LTS Commit ID : ${TAG}"
             }
         }
-
+    }
         stage('Build Temporary Docker Image') {
             steps {
                 echo "Building temporary Docker image..."
