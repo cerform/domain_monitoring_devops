@@ -12,18 +12,26 @@ pipeline {
 
     stages {
 
-        stage('On Push → Get Latest Commit ID') {
-    steps {
-        script {
-            TAG = sh(
-                script: "git ls-remote ${REPO_URL} refs/heads/main | cut -f1 | tr -d '\\n' | tr -d '\\r'",
-                returnStdout: true
-            ).trim()
-
-            if (!TAG?.trim()) {
-                error("Commit ID not found — cannot continue build.")
+        stage('Verify Docker Availability') {
+            steps {
+                echo "Checking Docker installation..."
+                sh 'which docker || echo "Docker not found in PATH"'
+                sh 'docker --version || echo "Docker is not installed or not running"'
             }
-            echo "🆕 Latest commit ID: '${TAG}'"
+        }
+
+        stage('On Push → Get Latest Commit ID') {
+            steps {
+                script {
+                    TAG = sh(
+                        script: "git ls-remote ${REPO_URL} refs/heads/main | cut -f1 | tr -d '\\n' | tr -d '\\r'",
+                        returnStdout: true
+                    ).trim()
+
+                    if (!TAG?.trim()) {
+                        error("Commit ID not found — cannot continue build.")
+                    }
+                    echo "Latest commit ID: '${TAG}'"
                 }
             }
         }
@@ -37,7 +45,9 @@ pipeline {
         stage('Build Docker Image (temp)') {
             steps {
                 echo "Building temporary Docker image with tag ${TAG}"
-                sh "docker build -t $REGISTRY/$IMAGE_NAME:${TAG} ."
+                retry(2) {
+                    sh "docker build -t $REGISTRY/$IMAGE_NAME:${TAG} ."
+                }
             }
         }
 
@@ -76,7 +86,6 @@ pipeline {
             when { expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' } }
             steps {
                 script {
-                    // Get latest semantic version (vX.Y.Z)
                     def currentVersion = sh(
                         script: "git tag --sort=-v:refname | grep -Eo 'v[0-9]+\\.[0-9]+\\.[0-9]+' | head -n1 || echo 'v0.0.0'",
                         returnStdout: true
@@ -84,12 +93,10 @@ pipeline {
 
                     echo "Current version: ${currentVersion}"
 
-                    // Bump patch version
                     def (major, minor, patch) = currentVersion.replace('v','').tokenize('.')
                     def newVersion = "v${major}.${minor}.${patch.toInteger() + 1}"
                     echo "Promoting image version to ${newVersion}"
 
-                    // Push new version to DockerHub
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh """
                         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -100,7 +107,6 @@ pipeline {
                         """
                     }
 
-                    // Tag release in GitHub
                     sh "git tag -a ${newVersion} -m 'Release ${newVersion}'"
                     sh "git push origin ${newVersion}"
                 }
@@ -116,6 +122,12 @@ pipeline {
         always {
             echo "Cleaning up Docker environment..."
             sh '''
+            echo "Listing containers before cleanup:"
+            docker ps -a || true
+
+            echo "Listing images before cleanup:"
+            docker images || true
+
             docker rm -f $CONTAINER_NAME || true
             docker rmi $REGISTRY/$IMAGE_NAME:${TAG} || true
             docker system prune -f || true
