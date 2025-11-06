@@ -4,104 +4,111 @@ pipeline {
     environment {
         REGISTRY = "symmetramain"
         IMAGE_NAME = "etcsys"
-        TAG = "temp_container_${env.BUILD_NUMBER}"
+        REPO_URL = "https://github.com/cerform/domain_monitoring_devops.git"
+        CONTAINER_NAME = "temp_container_${env.BUILD_NUMBER}"
     }
 
-    options {
-        timestamps()
-    }
+    options { timestamps() }
 
     stages {
 
-        stage('Checkout from GitHub') {
+        stage('On Push → Get Latest Commit ID') {
             steps {
-                echo "Cloning GitHub repository..."
-                git branch: 'main', url: 'https://github.com/cerform/domain_monitoring_devops.git'
-                scripts{
-                 TAG = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
-                 echo "LTS Commit ID : ${TAG}"
-            }
-        }
-    }
-        stage('Build Temporary Docker Image') {
-            steps {
-                echo "Building temporary Docker image..."
-                sh '''
-                docker build -t $REGISTRY/$IMAGE_NAME:$TAG .
-                '''
-            }
-        }
-
-        stage('Run Temporary Container') {
-            steps {
-                echo "Starting container for test execution..."
-                sh '''
-                docker run -d --name temp_container $REGISTRY/$IMAGE_NAME:$TAG tail -f /dev/null
-                '''
-            }
-        }
-
-        stage('Testing Suite') {
-            parallel {
-                stage('Selenium UI Tests') {
-                    steps {
-                        echo "Running Selenium tests..."
-                        sh '''
-                        docker exec temp_container pytest tests/selenium_tests --maxfail=1 --disable-warnings -q || exit 1
-                        '''
-                    }
+                script {
+                    TAG = sh(script: "git ls-remote ${REPO_URL} refs/heads/main | cut -f1", returnStdout: true).trim()
+                    echo "Latest commit ID: ${TAG}"
                 }
-                stage('Pytest Backend Tests') {
+            }
+        }
+
+        stage('Checkout Source Code') {
+            steps {
+                git branch: 'main', url: "${REPO_URL}"
+            }
+        }
+
+        stage('Build Docker Image (temp)') {
+            steps {
+                echo "🔧 Building temporary Docker image with tag ${TAG}"
+                sh "docker build -t $REGISTRY/$IMAGE_NAME:${TAG} ."
+            }
+        }
+
+        stage('Run Container for Tests') {
+            steps {
+                echo "Starting temporary container..."
+                sh '''
+                docker rm -f $CONTAINER_NAME || true
+                docker run -d --name $CONTAINER_NAME $REGISTRY/$IMAGE_NAME:${TAG} tail -f /dev/null
+                '''
+            }
+        }
+
+        stage('Execute Test Suite') {
+            parallel {
+                stage('Backend API Tests') {
                     steps {
                         echo "Running backend Pytest tests..."
                         sh '''
-                        docker exec temp_container pytest tests/api_tests --maxfail=1 --disable-warnings -q || exit 1
+                        docker exec $CONTAINER_NAME pytest tests/api_tests --maxfail=1 --disable-warnings -q || exit 1
+                        '''
+                    }
+                }
+                stage('UI Selenium Tests') {
+                    steps {
+                        echo "Running Selenium UI tests..."
+                        sh '''
+                        docker exec $CONTAINER_NAME pytest tests/selenium_tests --maxfail=1 --disable-warnings -q || exit 1
                         '''
                     }
                 }
             }
         }
 
-        stage('Publish to DockerHub') {
-            when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-            }
+        stage('Promote Version and Push to DockerHub') {
+            when { expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' } }
             steps {
-                echo "Pushing image to DockerHub..."
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh '''
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                    docker tag $REGISTRY/$IMAGE_NAME:$TAG $DOCKER_USER/$IMAGE_NAME:$TAG
-                    docker push $DOCKER_USER/$IMAGE_NAME:$TAG
-                    '''
-                }
-            }
-        }
+                script {
+                    // Get latest semantic version (vX.Y.Z)
+                    def currentVersion = sh(script: "git tag --sort=-v:refname | grep -Eo 'v[0-9]+\\.[0-9]+\\.[0-9]+' | head -n1 || echo 'v0.0.0'", returnStdout: true).trim()
+                    echo "Current version: ${currentVersion}"
 
-        stage('Cleanup') {
-            steps {
-                echo "Cleaning up temporary resources..."
-                sh '''
-                docker rm -f temp_container || true
-                docker rmi $REGISTRY/$IMAGE_NAME:$TAG || true
-                '''
+                    // Bump patch version
+                    def (major, minor, patch) = currentVersion.replace('v','').tokenize('.')
+                    def newVersion = "v${major}.${minor}.${patch.toInteger() + 1}"
+                    echo " Promoting image version to ${newVersion}"
+
+                    // Push new version to DockerHub
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh """
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                        docker tag $REGISTRY/$IMAGE_NAME:${TAG} $DOCKER_USER/$IMAGE_NAME:${newVersion}
+                        docker tag $REGISTRY/$IMAGE_NAME:${TAG} $DOCKER_USER/$IMAGE_NAME:latest
+                        docker push $DOCKER_USER/$IMAGE_NAME:${newVersion}
+                        docker push $DOCKER_USER/$IMAGE_NAME:latest
+                        """
+                    }
+
+                    // Tag release in GitHub
+                    sh "git tag -a ${newVersion} -m 'Release ${newVersion}'"
+                    sh "git push origin ${newVersion}"
+                }
             }
         }
     }
 
     post {
-        success {
-            echo "SUCCESS: All tests passed. Image pushed to DockerHub as $REGISTRY/$IMAGE_NAME:$TAG"
-        }
         failure {
-            echo "FAILURE: One or more stages failed. Check logs for details."
-            sh '''
-            echo "Collecting failure logs..."
-            docker logs temp_container || true
-            '''
+            echo "Tests failed. Displaying logs..."
+            sh "docker logs $CONTAINER_NAME || true"
         }
         always {
-            echo "Generating report and cleaning workspace..."
+            echo "Cleaning up Docker environment..."
+            sh '''
+            docker rm -f $CONTAINER_NAME || true
+            docker rmi $REGISTRY/$IMAGE_NAME:${TAG} || true
+            docker system prune -f || true
+            '''
             deleteDir()
         }
     }
