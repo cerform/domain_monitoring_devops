@@ -13,17 +13,17 @@ pipeline {
     stages {
 
         stage('On Push → Get Latest Commit ID') {
-            steps {
-                script {
-                    TAG = sh(
-                        script: "git ls-remote ${REPO_URL} refs/heads/main | cut -f1 | tr -d '\\n'",
-                        returnStdout: true
-                    ).trim()
+    steps {
+        script {
+            TAG = sh(
+                script: "git ls-remote ${REPO_URL} refs/heads/main | cut -f1 | tr -d '\\n' | tr -d '\\r'",
+                returnStdout: true
+            ).trim()
 
-                    if (!TAG?.trim()) {
-                        error("Commit ID not found — cannot continue build.")
-                    }
-                    echo "Latest commit ID: ${TAG}"
+            if (!TAG?.trim()) {
+                error("Commit ID not found — cannot continue build.")
+            }
+            echo "🆕 Latest commit ID: '${TAG}'"
                 }
             }
         }
