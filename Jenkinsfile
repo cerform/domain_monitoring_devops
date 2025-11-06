@@ -31,7 +31,7 @@ pipeline {
                         error("Commit ID not found — cannot continue build.")
                     }
 
-                    echo "🆕 Docker image tag (commit ID): '${env.TAG}'"
+                    echo "Docker image tag (commit ID): '${env.TAG}'"
                 }
             }
         }
