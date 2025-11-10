@@ -156,9 +156,19 @@ def bulk_upload_domains(file_path, cookie):
 # -----------------------------------------------------
 # Domain Monitoring
 # -----------------------------------------------------
-def scan_domains(cookie):
-    """Trigger a scan for all user domains."""
-    headers = {"Cookie": f"session={cookie}"}
-    response = get("/scan_domains", headers=headers)
-    print_response(response)
+
+def check_scan_domains(session_cookie: str | None = None):
+    """
+    Performs a GET request to /scan_domains.
+    If a session_cookie is provided, sends it as a Flask 'session' cookie.
+    Returns the response object from the requests library.
+    """
+
+    url = f"{BASE_URL}/scan_domains"
+    cookies = {}
+
+    if session_cookie:
+        cookies["session"] = session_cookie
+
+    response = requests.get(url, cookies=cookies, timeout=5)
     return response
