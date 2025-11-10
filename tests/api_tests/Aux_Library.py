@@ -78,7 +78,7 @@ def check_scan_domains(session_cookie: str | None = None):
     Returns the response object from the requests library.
     """
 
-    url = f"http://localhost:8080/scan_domains"
+    url = f"{BASE_URL}/scan_domains"
     cookies = {}
 
     if session_cookie:

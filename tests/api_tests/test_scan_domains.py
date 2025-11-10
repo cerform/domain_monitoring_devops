@@ -13,6 +13,7 @@ def test_scan_domains_before_login():
     assert response.status_code in (401,403,302)
 
 def test_scan_domains_after_login():
+    pass
 
 
 
