@@ -1,15 +1,21 @@
-from Aux_Library import check_login_user
+from Aux_Library import check_login_user, check_logout_user
 import pytest
 
 # Check valid login
-def test_login_valid():
-    login_result = check_login_user("john_doe", "password")
-    assert login_result.status_code == 200 
-    assert login_result.json().get("message") == "Login successful"
-    assert login_result.json().get("username") == "john_doe"
+def test_login_valid_and_logout():
+    login_response = check_login_user("john_doe", "password")
+    session_cookie = login_response.cookies.get("session")
+    assert login_response.status_code == 200 
+    assert login_response.json().get("message") == "Login successful"
+    assert login_response.json().get("username") == "john_doe"
+    logout_response = check_logout_user(session_cookie)
+    assert logout_response.status_code == 200 or logout_response.status_code == 302
+    assert logout_response.cookies.get("session")== None
+
+
 
 @pytest.mark.parametrize("username,password", [
-    ("JOHN_DOE", "PASSWORD"),   # case-sensitive mismatch
+    ("JOHN_DOE", "PASSWORD"),        # case-sensitive mismatch
     ("john_doe", "wrong_password"),  # wrong password
     ("wrong_username", "password"),  # wrong username
     ("", "password"),                # empty username
@@ -19,6 +25,6 @@ def test_login_valid():
 
 # Check invalid login scenarios
 def test_login_invalid(username, password):
-    login_result = check_login_user(username, password)
-    assert login_result.status_code == 401 
-    assert login_result.json().get("error") == "Invalid username or password"
+    login_response = check_login_user(username, password)
+    assert login_response.status_code == 401 
+    assert login_response.json().get("error") == "Invalid username or password"

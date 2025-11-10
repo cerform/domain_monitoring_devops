@@ -52,6 +52,17 @@ def check_login_user(name, password):
     response = requests.post(url, json=payload, headers=headers)
     return response
 
+# User logout
+
+def check_logout_user(session_cookie):
+    url = f"{BASE_URL}/logout"
+    headers = {
+        "Content-Type": "application/json",
+        "Cookie": f"session={session_cookie}"
+    }
+
+    response = requests.get(url, headers=headers)
+    return response
 
 
 # Dashboard access
