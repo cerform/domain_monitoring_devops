@@ -3,21 +3,24 @@ import sys
 import os
 import pytest
 
-def test_scan_domains_before_login():
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from app import app
+
+def test_scan_domains_unauthorized():
 
     """
-    checking that the endpoint is not reachable without login
+    Calls /scan_domains with NO session cookie.
+    Expected: 401 Unauthorized and ok=False with the proper error message.
 
     """
-    response = Aux_Library.check_scan_domains(session_cookie="")
-    assert response.status_code in (401,403,302)
+    response = Aux_Library.check_scan_domains()
+    assert response.status_code == 401
 
-def test_scan_domains_after_login():
-    pass
-
-
-
+    data = response.json()
+    assert data.get("ok") is False
+    assert data.get("error") == "Unauthorized"
 
 
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-# from app import app
+
+
+
