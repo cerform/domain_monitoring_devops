@@ -2,15 +2,12 @@ import requests
 
 # API Test Script
 # Tests the retrieval of a webpage
-def test_get_webpage(path="/"):
+def check_get_webpage(path="/"):
     response = requests.get(f"http://localhost:8080{path}")
-    if response.status_code == 200:
-        return {"ok": True, "message": "Webpage retrieved successfully"}
-    else:
-        return {"ok": False, "error": response.json().get("error", "Unknown error")}
+    return response
 
 # Tests user registration
-def test_register_user(name, password, password_confirmation):
+def check_register_user(name, password, password_confirmation):
     url = "http://localhost:8080/register"
     payload = {
         "username": name,
@@ -22,14 +19,10 @@ def test_register_user(name, password, password_confirmation):
     }
 
     response = requests.post(url, json=payload, headers=headers)
-
-    if response.status_code == 200:
-        return {"ok": True, "message": response.json().get("message", "Registration successful")}
-    else:
-        return {"ok": False, "error": response.json().get("error", "Unknown error")}
+    return response
 
 # Test login
-def test_login_user(name, password):
+def check_login_user(name, password):
     url = "http://localhost:8080/login"
     payload = {
         "username": name,
@@ -40,11 +33,7 @@ def test_login_user(name, password):
     }
 
     response = requests.post(url, json=payload, headers=headers)
-
-    if response.status_code == 200:
-        return {"ok": True, "message": "Login successful", "session": response.cookies['session']}
-    else:
-        return {"ok": False, "error": response.json().get("error", "Unknown error")}
+    return response
 
 #Test Domain retrieval (non expected)
 def check_dashboard(session_cookie):
@@ -55,4 +44,4 @@ def check_dashboard(session_cookie):
     }
 
     response = requests.get(url, headers=headers)
-    return response.text
+    return response
