@@ -1,43 +1,66 @@
+import os
 import requests
 
-# API Test Script
-# Tests the retrieval of a webpage
+# Base URL configuration
+# Default to localhost:8080 if no environment variable is set
+BASE_URL = os.getenv("BASE_URL", "http://localhost:8080")
+
+
+
+# GET webpage
+
 def check_get_webpage(path="/"):
-    response = requests.get(f"http://localhost:8080{path}")
+    """
+    Send a GET request to the specified path using the base URL.
+    Example: check_get_webpage("/login")
+    """
+    url = f"{BASE_URL}{path}"
+    response = requests.get(url)
     return response
 
-# Tests user registration
+
+
+# User registration
+
 def check_register_user(name, password, password_confirmation):
-    url = "http://localhost:8080/register"
+    """
+    Send a POST request to /register to create a new user.
+    """
+    url = f"{BASE_URL}/register"
     payload = {
         "username": name,
         "password": password,
         "password_confirmation": password_confirmation
     }
-    headers = {
-        "Content-Type": "application/json"
-    }
+    headers = {"Content-Type": "application/json"}
 
     response = requests.post(url, json=payload, headers=headers)
     return response
 
-# Test login
+
+
+# User login
+
 def check_login_user(name, password):
-    url = "http://localhost:8080/login"
+    url = f"{BASE_URL}/login"
     payload = {
         "username": name,
         "password": password
     }
-    headers = {
-        "Content-Type": "application/json"
-    }
+    headers = {"Content-Type": "application/json"}
 
     response = requests.post(url, json=payload, headers=headers)
     return response
 
-#Test Domain retrieval (non expected)
+
+
+# Dashboard access
+
 def check_dashboard(session_cookie):
-    url = "http://localhost:8080/dashboard"
+    """
+    Send a GET request to /dashboard using the provided session cookie.
+    """
+    url = f"{BASE_URL}/dashboard"
     headers = {
         "Content-Type": "application/json",
         "Cookie": f"session={session_cookie}"
@@ -45,6 +68,7 @@ def check_dashboard(session_cookie):
 
     response = requests.get(url, headers=headers)
     return response
+<<<<<<< HEAD
 
 
 def check_scan_domains(session_cookie: str | None = None):
@@ -65,3 +89,5 @@ def check_scan_domains(session_cookie: str | None = None):
     return response 
 
 
+=======
+>>>>>>> 0a63f859f13d236d4207d2a9ca2136cb3571db26
