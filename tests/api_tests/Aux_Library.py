@@ -45,3 +45,23 @@ def check_dashboard(session_cookie):
 
     response = requests.get(url, headers=headers)
     return response
+
+
+def check_scan_domains(session_cookie: str | None = None):
+
+    """
+    Performs a GET request to scan_domains.
+    If a session_cookie is provided, sends it as a Flask 'session' cookie.
+    Returns the response object from the requests library.
+    """
+
+    url = f"http://localhost:8080/scan_domains"
+    cookies = {}
+
+    if session_cookie:
+        cookies["session"] = session_cookie
+
+    response = requests.get(url, cookies=cookies, timeout=5)
+    return response 
+
+
