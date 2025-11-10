@@ -1,16 +1,14 @@
 import os
 import requests
 
-# -----------------------------------------------------
 # Base URL configuration
-# -----------------------------------------------------
 # Default to localhost:8080 if no environment variable is set
 BASE_URL = os.getenv("BASE_URL", "http://localhost:8080")
 
 
-# -----------------------------------------------------
+
 # GET webpage
-# -----------------------------------------------------
+
 def check_get_webpage(path="/"):
     """
     Send a GET request to the specified path using the base URL.
@@ -21,9 +19,9 @@ def check_get_webpage(path="/"):
     return response
 
 
-# -----------------------------------------------------
+
 # User registration
-# -----------------------------------------------------
+
 def check_register_user(name, password, password_confirmation):
     """
     Send a POST request to /register to create a new user.
@@ -40,14 +38,10 @@ def check_register_user(name, password, password_confirmation):
     return response
 
 
-# -----------------------------------------------------
+
 # User login
-# -----------------------------------------------------
+
 def check_login_user(name, password):
-    """
-    Send a POST request to /login to authenticate the user.
-    Returns the full response object.
-    """
     url = f"{BASE_URL}/login"
     payload = {
         "username": name,
@@ -59,9 +53,9 @@ def check_login_user(name, password):
     return response
 
 
-# -----------------------------------------------------
+
 # Dashboard access
-# -----------------------------------------------------
+
 def check_dashboard(session_cookie):
     """
     Send a GET request to /dashboard using the provided session cookie.
