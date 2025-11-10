@@ -93,7 +93,7 @@ def check_login_user(username, password):
     return response
 
 
-def logout_user(cookie):
+def check_logout_user(cookie):
     """Logout the current user using their session cookie."""
     headers = {"Cookie": f"session={cookie}"}
     response = get("/logout", headers=headers)
