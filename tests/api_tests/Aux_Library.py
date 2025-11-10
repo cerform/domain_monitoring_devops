@@ -68,7 +68,6 @@ def check_dashboard(session_cookie):
 
     response = requests.get(url, headers=headers)
     return response
-<<<<<<< HEAD
 
 
 def check_scan_domains(session_cookie: str | None = None):
@@ -89,5 +88,3 @@ def check_scan_domains(session_cookie: str | None = None):
     return response 
 
 
-=======
->>>>>>> 0a63f859f13d236d4207d2a9ca2136cb3571db26
