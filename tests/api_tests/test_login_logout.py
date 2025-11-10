@@ -1,22 +1,24 @@
-import Aux_Library
-import sys
-import os
+from Aux_Library import check_login_user
+import pytest
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-from app import app
+# Check valid login
+def test_login_valid():
+    login_result = check_login_user("john_doe", "password")
+    assert login_result.status_code == 200 
+    assert login_result.json().get("message") == "Login successful"
+    assert login_result.json().get("username") == "john_doe"
 
-# Test connectivity to pages
-# response_root = Aux_Library.check_get_webpage("/")
-# response_login = Aux_Library.check_get_webpage("/login")
-# response_register = Aux_Library.check_get_webpage("/register")
+@pytest.mark.parametrize("username,password", [
+    ("JOHN_DOE", "PASSWORD"),   # case-sensitive mismatch
+    ("john_doe", "wrong_password"),  # wrong password
+    ("wrong_username", "password"),  # wrong username
+    ("", "password"),                # empty username
+    ("john_doe", ""),                # empty password
+    ("", ""),                        # both empty
+])
 
-# Test user registration
-# registration_result = Aux_Library.check_register_user("testuser", "Testpass123", "Testpass123")
-
-# Test user login
-login_result = Aux_Library.check_login_user("john_doe", "password")
-session = login_result.cookies["session"]
-
-# Extract session cookie for further authenticated requests
-
-print(session)
+# Check invalid login scenarios
+def test_login_invalid(username, password):
+    login_result = check_login_user(username, password)
+    assert login_result.status_code == 401 
+    assert login_result.json().get("error") == "Invalid username or password"
