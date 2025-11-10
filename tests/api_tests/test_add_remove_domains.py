@@ -7,9 +7,6 @@ import re
 import Aux_Library as aux
 
 
-BASE_URL = "http://localhost:8080"
-
-
 def load_test_user():
     """
     Load user from users.json.
@@ -51,6 +48,7 @@ def test_add_and_remove_domain(session_cookie):
     3. Remove it via /remove_domains
     4. Confirm it is gone
     """
+    BASE_URL = aux.BASE_URL  # Use from Aux_Library
     headers = {
         "Content-Type": "application/json",
         "Cookie": f"session={session_cookie}"
