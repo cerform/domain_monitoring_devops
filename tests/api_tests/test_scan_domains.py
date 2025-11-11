@@ -42,3 +42,15 @@ def test_scan_domaians_authorized():
     password_confirmation=password,
                                                 )
     assert reg_resp.status_code == 200
+
+    login_resp = Aux_Library.check_login_user(
+        name=username,
+        password=password,
+                                                )
+    assert login_resp.status_code == 200
+
+    #Extracting Flask session cookie
+    session_cookie = login_resp.cookies.get("session")
+    assert session_cookie is not None
+
+
