@@ -23,7 +23,7 @@ def test_scan_domains_unauthorized():
     assert data.get("ok") is False
     assert data.get("error") == "Unauthorized"
 
-def test_scan_domaians_authorized():
+def test_scan_domains_authorized():
     
     """
     Full flow:
@@ -34,17 +34,17 @@ def test_scan_domaians_authorized():
     """
 
     username = f"test_scan_user_{uuid.uuid4().hex[:8]}"
-    password = "StrongPass123!"
+    password = "StrongPass12"
 
     reg_resp = Aux_Library.check_register_user(
-    name=username,
+    username=username,
     password=password,
     password_confirmation=password,
                                                 )
     assert reg_resp.status_code == 200
 
     login_resp = Aux_Library.check_login_user(
-        name=username,
+        username=username,
         password=password,
                                                 )
     assert login_resp.status_code == 200
