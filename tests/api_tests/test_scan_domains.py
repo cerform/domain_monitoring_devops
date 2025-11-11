@@ -53,4 +53,12 @@ def test_scan_domaians_authorized():
     session_cookie = login_resp.cookies.get("session")
     assert session_cookie is not None
 
+    scan_resp = Aux_Library.check_scan_domains(session_cookie=session_cookie)
+    assert scan_resp.status_code == 200
 
+    data = scan_resp.json()
+
+    assert data.get("ok") is True, f"Expected ok=True, but got {data}"
+    assert "updated" in data, f"'updated' key missing in response: {data}"
+    assert isinstance(data["updated"], int), f"'updated' must be int, but got {type(data['updated'])}"
+    assert data["updated"] >= 0, f"'updated' must be >= 0, but got {data['updated']}"
