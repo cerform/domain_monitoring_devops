@@ -30,7 +30,7 @@ def test_scan_domains_authorized():
     - register user
     - Login
     - call "scan_domains" with session cookie
-    - Check that the response is ok and has an 'update' field.
+    - Check that the response is ok and has an 'update' field that is INT and >=0.
     """
 
     username = f"test_scan_user_{uuid.uuid4().hex[:8]}"
@@ -46,7 +46,7 @@ def test_scan_domains_authorized():
     login_resp = Aux_Library.check_login_user(
         username=username,
         password=password,
-                                                )
+                                            )
     assert login_resp.status_code == 200
 
     #Extracting Flask session cookie
