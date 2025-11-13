@@ -50,7 +50,9 @@ pipeline {
                 echo "Starting temporary container..."
                 sh '''
                 docker rm -f $CONTAINER_NAME || true
-                docker run -d --name $CONTAINER_NAME -p 8080:8080 $REGISTRY/$IMAGE_NAME:${TAG}
+                docker run -d \
+                --name $CONTAINER_NAME \
+                $REGISTRY/$IMAGE_NAME:${TAG}
                 '''
             }
         }
