@@ -50,5 +50,5 @@ COPY . .
 # Default command
 # -------------------------------
 # Keeps container alive for Jenkins tests
-CMD ["python", "run.py"]
+CMD ["python", "app.py"]
 
