@@ -49,3 +49,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 CMD ["pytest", "tests/selenium_tests", "--maxfail=1", "--disable-warnings", "-q"]
+ENTRYPOINT ["./entrypoint.sh"]
