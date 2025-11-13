@@ -7,8 +7,8 @@ from UserManagementModule import UserManager as UM
 # -----------------------------------------------------
 # Global session and Base URL configuration
 # -----------------------------------------------------
-BASE_URL = os.getenv("BASE_URL", "http://import tests.api_tests.Aux_Library as Aux_Library:8080")
-session = requests.Session()
+BASE_URL = "http://localhost:8080"
+
 
 
 # -----------------------------------------------------
