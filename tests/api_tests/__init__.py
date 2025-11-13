@@ -1,1 +1,1 @@
-# init file so python will see the files in the folder
+from tests.api_tests.Aux_Library import check_login_user
