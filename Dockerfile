@@ -11,44 +11,36 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV DEBIAN_FRONTEND=noninteractive
 
 # -------------------------------
-# Pre-clean and install dependencies
+# Install dependencies
 # -------------------------------
-# The cleanup before installation ensures minimal layer size
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && apt-get update && apt-get install -y --no-install-recommends \
-       chromium chromium-driver \
-       curl wget unzip gnupg ca-certificates \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    chromium chromium-driver \
+    curl wget unzip gnupg ca-certificates \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# -------------------------------
-# Environment variables for Selenium
-# -------------------------------
+# Selenium ENV
 ENV CHROME_BIN=/usr/bin/chromium
 ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
 # -------------------------------
-# Set working directory
+# Working directory
 # -------------------------------
 WORKDIR /app
 
 # -------------------------------
-# Copy Python dependencies
+# Install Python dependencies
 # -------------------------------
 COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 # -------------------------------
-# Install Python packages (pytest, selenium, etc.)
+# COPY FULL PROJECT INCLUDING TESTS
 # -------------------------------
-RUN pip install --no-cache-dir -r requirements.txt
+COPY . /app
 
 # -------------------------------
-# Copy application code
+# Expose port and run
 # -------------------------------
-COPY . .
-
-# -------------------------------
-# Default command
-# -------------------------------
-# Keeps container alive for Jenkins tests
+EXPOSE 8080
 CMD ["python", "app.py"]
-
