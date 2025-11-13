@@ -8,7 +8,7 @@ from UserManagementModule import UserManager as UM
 # Global session and Base URL configuration
 # -----------------------------------------------------
 BASE_URL = "http://localhost:8080"
-
+session = requests.Session()
 
 
 # -----------------------------------------------------
