@@ -10,7 +10,6 @@ import selenium_register
 import selenium_login
 import selenium_single_domain
 import selenium_bulk_domain
-import pytest
 
 def create_linux_driver():
     options = Options()
@@ -32,24 +31,29 @@ def test_master():
     driver = create_linux_driver()
     # Connect to the web application
     driver.get("http://127.0.0.1:8080/")
+
     # Check if the app is online
-    try:
-        WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.TAG_NAME, "body"))
-        )
-        print("Web application is online.")
-    except Exception as e:
-        print(f"Error: Web application is not reachable. {e}")
-        driver.quit()
-        exit(1)
+    page = WebDriverWait(driver, 5).until(
+        EC.presence_of_element_located((By.TAG_NAME, "body"))
+    )
+    print("Web application is online.")
+    if page is None:
+        raise Exception("Web application is not reachable")
+    
     # Test registration functionality
     selenium_register.register(driver)
+
     # Test login functionality
-    selenium_login.test_login(driver)
+    selenium_login.login(driver)
+
     # Test add single domain functionality
     selenium_single_domain.add_single_domain(driver)
+
     # Test add bulk domains functionality
     selenium_bulk_domain.add_bulk_domains(driver)
 
-    time.sleep(10)
+    time.sleep(5)
     driver.quit()
+
+if __name__ == "__main__":
+    test_master()
