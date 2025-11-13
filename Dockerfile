@@ -1,52 +1,51 @@
-# -------------------------------
-# Base: Python 3.12 slim
-# -------------------------------
 FROM python:3.12-slim
 
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
 
 # -------------------------------
-# Install system dependencies
+# Install Chrome
 # -------------------------------
+RUN apt-get update && apt-get install -y wget gnupg ca-certificates
+
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google.gpg \
+    && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+       > /etc/apt/sources.list.d/google-chrome.list
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget unzip curl gnupg ca-certificates \
-    chromium \
-    chromium-driver \
-    fonts-liberation \
-    libnss3 \
-    libasound2 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libdrm2 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxfixes3 \
-    libxrandr2 \
-    libgbm1 \
-    && apt-get clean \
+        google-chrome-stable \
+        unzip \
+        libnss3 libgdk-pixbuf2.0-0 libxss1 libasound2 \
+        libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 \
+        libxdamage1 libxfixes3 libxrandr2 libgbm1 \
     && rm -rf /var/lib/apt/lists/*
 
 # -------------------------------
-# Set environment vars for Selenium
+# Install ChromeDriver matching Chrome
 # -------------------------------
-ENV CHROME_BIN=/usr/bin/chromium
-ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
+RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d. -f1) \
+    && echo "Chrome major version: $CHROME_VERSION" \
+    && LATEST=$(wget -qO- "https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_${CHROME_VERSION}") \
+    && wget -q "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${LATEST}/linux64/chromedriver-linux64.zip" \
+    && unzip chromedriver-linux64.zip \
+    && mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver \
+    && chmod +x /usr/local/bin/chromedriver \
+    && rm -rf chromedriver-linux64.zip chromedriver-linux64
+
+ENV CHROME_BIN=/usr/bin/google-chrome
+ENV CHROMEDRIVER_PATH=/usr/local/bin/chromedriver
 
 # -------------------------------
-# Install Python requirements
+# Install Python deps
 # -------------------------------
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# -------------------------------
-# Copy project
-# -------------------------------
 COPY . .
 
-CMD ["pytest", "tests/selenium_tests", "--maxfail=1", "--disable-warnings", "-q"]
+# -------------------------------
+# ENTRYPOINT for tests
+# -------------------------------
+RUN chmod +x entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
