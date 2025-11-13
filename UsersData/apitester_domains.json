@@ -1,0 +1,14 @@
+[
+  {
+    "domain": "github.com",
+    "status": "Live",
+    "ssl_expiration": "2026-02-05",
+    "ssl_issuer": "Sectigo Limited"
+  },
+  {
+    "domain": "google.com",
+    "status": "Live",
+    "ssl_expiration": "2026-01-05",
+    "ssl_issuer": "Google Trust Services"
+  }
+]
