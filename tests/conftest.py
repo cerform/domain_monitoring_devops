@@ -12,7 +12,6 @@ def driver():
 
     driver = webdriver.Chrome(options=options)
 
-    # Задержка для стабильности в Jenkins
     time.sleep(1)
 
     yield driver
