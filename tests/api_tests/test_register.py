@@ -2,7 +2,7 @@ from .Aux_Library import check_get_webpage, check_register_user
 import pytest
 from UserManagementModule import UserManager as UM
 
-pytestmark = pytest.mark.order(1)
+pytestmark = pytest.mark.order(2)
 
 # Fixtures
 
