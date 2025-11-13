@@ -1,4 +1,4 @@
-import Aux_Library
+from tests.api_tests import Aux_Library
 import sys
 import os
 import pytest
@@ -6,6 +6,8 @@ import uuid
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 from app import app
+
+pytestmark = pytest.mark.order(6)
 
 def test_scan_domains_unauthorized():
 

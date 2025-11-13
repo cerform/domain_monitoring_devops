@@ -1,5 +1,7 @@
-from tests.api_tests.Aux_Library import check_login_user, check_logout_user
+from .Aux_Library import check_login_user, check_logout_user
 import pytest
+
+pytestmark = pytest.mark.order(3)
 
 # Check valid login
 def test_login_valid_and_logout():

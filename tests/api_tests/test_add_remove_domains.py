@@ -6,6 +6,7 @@ import os
 import re
 from tests.api_tests import Aux_Library as aux
 
+pytestmark = pytest.mark.order(5)
 
 def load_test_user():
     """
