@@ -1,4 +1,5 @@
-import tests.api_tests.Aux_Library as Aux_Libraryimport sys
+import tests.api_tests.Aux_Library as Aux_Library
+import sys
 import os
 import pytest
 import uuid
