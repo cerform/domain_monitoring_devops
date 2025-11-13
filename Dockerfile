@@ -4,47 +4,44 @@
 FROM python:3.12-slim
 
 # -------------------------------
-# Environment variables
+# Environment
 # -------------------------------
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    DEBIAN_FRONTEND=noninteractive
 
 # -------------------------------
-# Install dependencies
+# Install ONLY light dependencies
 # -------------------------------
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/* && \
-    apt-get clean && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        chromium \
-        chromium-driver \
-        curl wget unzip gnupg ca-certificates && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/*
-
-
-# Selenium ENV
-ENV CHROME_BIN=/usr/bin/chromium
-ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
+        curl \
+        wget \
+        unzip \
+        gnupg \
+        ca-certificates \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # -------------------------------
-# Working directory
+# Project directory
 # -------------------------------
 WORKDIR /app
 
 # -------------------------------
-# Install Python dependencies
+# Copy files
 # -------------------------------
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY requirements.txt /app/
 
-# -------------------------------
-# COPY FULL PROJECT INCLUDING TESTS
-# -------------------------------
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . /app
 
 # -------------------------------
-# Expose port and run
+# Expose port
 # -------------------------------
 EXPOSE 8080
+
+# -------------------------------
+# Start application
+# -------------------------------
 CMD ["python", "app.py"]
