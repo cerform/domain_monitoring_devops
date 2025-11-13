@@ -1,5 +1,5 @@
 Flask>=2.3.0
 requests>=2.31.0
-logger
 pytest
+pytest-order
 pytest-mock

@@ -1,9 +1,12 @@
 import json
 import re
 import logger
+from pathlib import Path
 import DomainManagementEngine as DME
 
 logger = logger.setup_logger("UserManagementModule")
+USERS_CRED_PATH = "./UsersData/users.json"
+DATA_PATH = "./UsersData/"
 
 class UserManager:
     """
@@ -22,7 +25,7 @@ class UserManager:
         logger.debug(f"Loading users.json file.")
         try:
             users = {}
-            with open("./UsersData/users.json", "r") as f:
+            with open(USERS_CRED_PATH, "r") as f:
                 users_json = json.load(f)
             for user_details in users_json:
                 username = user_details["username"]
@@ -44,7 +47,7 @@ class UserManager:
             logger.debug(f"Checking username validity.")
             usr_valid = self.username_validity(username)
             if usr_valid == "FAILED" or not usr_valid[0]:
-                logger.debug(f"username invalid.")
+                logger.debug(f"The \"{username}\" is an invalid username.")
                 return {"error" : usr_valid[1]}
             # Checking password validitiy using the method register_page_password_validity
             logger.debug(f"Checking password validity.")
@@ -60,7 +63,7 @@ class UserManager:
                 logger.debug(f"Writing user to json failed.")
                 return {"error": write_user_status[1]}
             # Creating a new file for user's domains
-            logger.debug(f"creating ./UsersData/{username}_domains.json file.")
+            logger.debug(f"creating {DATA_PATH}{username}_domains.json file.")
             dme.load_user_domains(username)
 
             logger.info(f"{username} registered successfully.")
@@ -115,13 +118,34 @@ class UserManager:
             logger.debug(f"Unable to check the validity of the password; Exception: {str(e)}")
             return "FAILED","Error: Unable to validate username.", e 
     
+    def save_users_from_memory_to_json(self):
+        logger.info(f"writing users from memory to users.json file.")
+        try:
+            users_list = []
+            for user in self.users:
+                user_temp = {
+                    "username": user,
+                    "password": self.users[user]
+                }
+                users_list.append(user_temp)
+            
+            with open(USERS_CRED_PATH, "w") as f:
+                json.dump(users_list, f, indent=4, ensure_ascii=False)
+
+            return "SUCCESS", "Users was written from memory to users.json file successfully."
+        
+        except Exception as e:
+            logger.error(f"Failed to write self.users from memory to users.json; Exception: {str(e)}")
+            return "FAILED", "Unabled to write self.users to users.json.", e
+
+    
     def write_user_to_json(self, username, password):
         """
         This method writes the username and password to the json file.
         """
         logger.info(f"Writing user's details to users.json.")
         try:
-            with open("./UsersData/users.json", "r") as f:
+            with open(USERS_CRED_PATH, "r") as f:
                 users_list = json.load(f)
             
             user_to_write = {
@@ -130,7 +154,7 @@ class UserManager:
             }
 
             users_list.append(user_to_write)
-            with open("./UsersData/users.json", "w") as f:
+            with open(USERS_CRED_PATH, "w") as f:
                json.dump(users_list, f, indent=4, ensure_ascii=False)
 
             return "SUCCESS", "Username and password was written successfully."
@@ -153,3 +177,19 @@ class UserManager:
         except Exception as e:
             logger.error(f"Could not validate users credentials. {str(e)}")
             return False
+
+    def remove_user(self, username):
+        logger.info(f"deleting {username}'s details from users.json, and deletes its domains file if exists.")
+        try:
+            if username in self.users:
+                password = self.users[username]
+                del self.users[username]
+                result = self.save_users_from_memory_to_json()
+                if result[0] == "FAILED":
+                    self.users[username] = password
+                    logger.error(f"Unable to remove user {username} from json file.")
+                
+            Path(f"{DATA_PATH}{username}_domains.json").unlink(missing_ok=True)
+            
+        except Exception as e:
+            logger.error(f"Error deleting {username} and files from system: {str(e)}")
