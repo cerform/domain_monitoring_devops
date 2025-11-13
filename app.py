@@ -48,7 +48,7 @@ def login():
 
     if user_manager.validate_login(username, password):
         session["username"] = username
-        return jsonify({"ok": True, "message": "Login successful", "username": username}), 201
+        return jsonify({"ok": True, "message": "Login successful", "username": username}), 200
 
     return jsonify({"ok": False, "error": "Invalid username or password"}), 401
 
@@ -87,7 +87,7 @@ def register():
 
         # success
         session["username"] = username
-        return jsonify(result), 200
+        return jsonify(result), 201
 
     except Exception as e:
         return jsonify({"error": f"User could not be registered: {str(e)}"}), 400
