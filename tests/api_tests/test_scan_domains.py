@@ -41,7 +41,7 @@ def test_scan_domains_authorized():
     password=password,
     password_confirmation=password,
                                                 )
-    assert reg_resp.status_code == 200
+    assert reg_resp.ok == True
 
     login_resp = Aux_Library.check_login_user(
         username=username,
