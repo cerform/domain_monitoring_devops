@@ -1,4 +1,4 @@
-import .Aux_Library
+from tests.api_tests import Aux_Library
 import sys
 import os
 import pytest
