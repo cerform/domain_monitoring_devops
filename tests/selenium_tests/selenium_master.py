@@ -1,7 +1,12 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
-
+import time
+import selenium_login
 
 def create_linux_driver():
     options = Options()
@@ -10,9 +15,9 @@ def create_linux_driver():
     options.binary_location = "/usr/bin/chromium-browser"  # or "/usr/bin/chromium"
 
     # headless etc.
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
+    # options.add_argument("--headless=new")
+    # options.add_argument("--no-sandbox")
+    # options.add_argument("--disable-dev-shm-usage")
 
     # again: match what `which chromedriver` gave you
     service = Service("/usr/bin/chromedriver")
@@ -22,6 +27,9 @@ def create_linux_driver():
 
 if __name__ == "__main__":
     driver = create_linux_driver()
-    driver.get("https://google.com")
-    print(driver.title)
+    # Connect to the web application
+    driver.get("http://127.0.0.1:8080/")
+    # Wait for the page to load
+    selenium_login.login(driver, "admin", "admin")
+    time.sleep(10)
     driver.quit()
