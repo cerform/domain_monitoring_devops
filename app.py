@@ -65,7 +65,7 @@ def register():
                 session["username"] = username
                 return jsonify(register_status), 200
             elif "error" in register_status:
-                return jsonify(register_status), 401
+                return jsonify(register_status), 400
         except Exception as e:
             return jsonify({"error": f"User could not be registered: {str(e)}"}), 400
 
