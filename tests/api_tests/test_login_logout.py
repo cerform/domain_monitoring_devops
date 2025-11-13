@@ -1,4 +1,4 @@
-from Aux_Library import check_login_user, check_logout_user
+from tests.api_tests.Aux_Library import check_login_user, check_logout_user
 import pytest
 
 # Check valid login
