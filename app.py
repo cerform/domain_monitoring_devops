@@ -218,6 +218,18 @@ def scan_domains():
         logger.error(f"Error during scan: {e}")
         return jsonify({"ok": False, "error": str(e)}), 500
 
+# -------------------------#
+#  Reload Users to Memory  #
+# -------------------------#
+
+@app.route('/reload_users_to_memory', methods=['GET'])
+def reload_users_to_memory():
+    try:
+        user_manager.load_users_json_to_memory()
+        return jsonify({"ok": True}), 200
+    except Exception as e:
+        logger.error(f"Error during reloading users.json: {str(e)}")
+        return jsonify({"ok": False}), 500
 
 # ---------------------------
 # Static passthrough
