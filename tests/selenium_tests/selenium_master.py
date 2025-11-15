@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 import time
 import selenium_register
 import selenium_login
-import selenium_single_domain
+import tests.selenium_tests.selenium_add_single_domain as selenium_add_single_domain
 import selenium_bulk_domain
 
 def create_linux_driver():
@@ -47,7 +47,7 @@ def test_master():
     selenium_login.login(driver)
 
     # Test add single domain functionality
-    selenium_single_domain.add_single_domain(driver)
+    selenium_add_single_domain.add_single_domain(driver)
 
     # Test add bulk domains functionality
     selenium_bulk_domain.add_bulk_domains(driver)
