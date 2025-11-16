@@ -25,7 +25,7 @@ class RegisterPage(BasePage):
         self.enter_username(username)
         self.enter_password(password)
         self.enter_password_confirmation(password_confirmation)
-        self.register_button.click()
+        self.click_register()
     
     def move_to_login_page(self):
         self.click(self.login_click_here_text)
