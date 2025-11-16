@@ -14,10 +14,7 @@ class DashboardPage(BasePage):
     bulk_upload_button = (By.ID, "openBulkUpload")
     logout_button = (By.ID, "logoutBtn")
     scan_now_button = (By.ID, "scanNowBtn")
-    # Actions:
-    def load(self):
-        self.driver.get(self.URL)    
-
+    # Actions:   
     def get_welcome_message(self):
         return self.get_text(locator=self.welcome_message)
 
