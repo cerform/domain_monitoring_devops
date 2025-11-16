@@ -1,4 +1,4 @@
-from .Aux_Library import check_get_webpage, check_register_user, get
+from .Aux_Library import check_get_webpage, check_register_user, remove_user_from_running_app as remove_user
 import pytest
 from UserManagementModule import UserManager as UM
 
@@ -149,6 +149,7 @@ def test_register_successful_registration(new_username):
     assert response.json() == expected_response
     
     # Removing new test user
-    UM().remove_user(new_username)
-    results = get("/reload_users_to_memory")
+    # UM().remove_user(new_username)
+    # results = get("/reload_users_to_memory")
+    remove_user(new_username)
 

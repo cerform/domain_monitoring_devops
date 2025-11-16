@@ -178,7 +178,7 @@ def check_scan_domains(session_cookie: str | None = None):
 # -----------------------------------------------------
 # Removing existing user
 # -----------------------------------------------------
-def remove_user(username):
+def remove_user_from_running_app(username):
     # Removing new test user
     UM().remove_user(username)
     # Reloading users.json to memory
