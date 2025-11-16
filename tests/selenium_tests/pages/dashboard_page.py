@@ -26,15 +26,7 @@ class DashboardPage(BasePage):
     #     self.click(self.add_domain_button)
     #     from tests.selenium_tests.pages.single_domain_modal import SingleDomainModal
     #     return SingleDomainModal(self.driver)
-
-    def open_bulk_upload(self):
-        self.click(self.bulk_upload_button)
-        return BulkUploadModal(self.driver)
-
-    def open_add_single_domain(self):
-        self.click(self.add_domain_button)
-        return SingleDomainModal(self.driver)
-
+    
     def logout(self):
         self.click(locator=self.logout_button)
 
