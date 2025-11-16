@@ -2,6 +2,7 @@ import os
 import requests
 import re
 import json
+import UserManagementModule as UM
 
 # -----------------------------------------------------
 # Global session and Base URL configuration
@@ -172,3 +173,14 @@ def check_scan_domains(session_cookie: str | None = None):
 
     response = requests.get(url, cookies=cookies, timeout=5)
     return response
+
+
+# -----------------------------------------------------
+# Removing existing user
+# -----------------------------------------------------
+def remove_user(username):
+    # Removing new test user
+    UM().remove_user(username)
+    # Reloading users.json to memory
+    result = get("/reload_users_to_memory")
+    return resul
