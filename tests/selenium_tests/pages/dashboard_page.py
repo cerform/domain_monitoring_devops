@@ -7,8 +7,14 @@ from pages.single_domain_modal import SingleDomainModal
 
 class DashboardPage(BasePage):
 
+    welcome_message = (By.ID, "greeting")
     add_domain_button = (By.ID, "openAddDomain")
     bulk_upload_button = (By.ID, "openBulkUpload")
+    logout_button = (By.ID, "logoutBtn")
+    scan_now_button = (By.ID, "scanNowBtn")
+
+    def get_welcome_message(self):
+        return self.get_text(locator=self.welcome_message)
 
     def open_bulk_upload(self):
         self.click(self.bulk_upload_button)
@@ -17,3 +23,9 @@ class DashboardPage(BasePage):
     def open_add_single_domain(self):
         self.click(self.add_domain_button)
         return SingleDomainModal(self.driver)
+
+    def logout(self):
+        self.click(locator=self.logout_button)
+
+    def scan_now(self):
+        self.click(locator=self.scan_now_button)
