@@ -1,6 +1,6 @@
 import pytest
-from pages.login_page import LoginPage
-from pages.dashboard_page import DashboardPage
+from tests.selenium_tests.pages.login_page import LoginPage
+from tests.selenium_tests.pages.dashboard_page import DashboardPage
 from selenium.webdriver.common.by import By
 
 # --------
@@ -16,7 +16,7 @@ def test_login_valid(driver):
     login_page.login("john_doe", "password")
 
     # Assert by title
-    assert "dashboard" in driver.title.lower()
+    assert "dashboard" in login_page.get_title()
 
 # --------
 # Negative tests: invalid login
