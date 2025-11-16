@@ -183,4 +183,4 @@ def remove_user(username):
     UM().remove_user(username)
     # Reloading users.json to memory
     result = get("/reload_users_to_memory")
-    return resul
+    return result
