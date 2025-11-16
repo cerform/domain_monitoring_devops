@@ -5,7 +5,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 
 @pytest.fixture
-def browser():
+def driver():
     # For headless mode:
     # options = Options()
     # options.add_argument("--headless=new")
