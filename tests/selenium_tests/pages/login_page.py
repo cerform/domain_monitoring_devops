@@ -1,13 +1,19 @@
 from selenium.webdriver.common.by import By
-from base_page import BasePage
+from tests.selenium_tests.pages.base_page import BasePage
+from tests.api_tests.Aux_Library import BASE_URL
+
 
 class LoginPage(BasePage):
+    URL = f"{BASE_URL}/login"
     # Locators:
     username_input = (By.ID, "username")
     password_input = (By.ID, "password")
     login_button = (By.CSS_SELECTOR, "input[type='submit'][value='Login']")
     register_button = (By.ID, "register")
-    # Actions:
+
+    def load(self):
+        self.driver.get(self.URL)
+
     def enter_username(self, username):
         self.type(self.username_input, username)
 
