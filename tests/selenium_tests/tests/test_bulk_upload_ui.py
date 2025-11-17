@@ -1,10 +1,12 @@
+import pytest
 import os
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-
 from tests.selenium_tests.pages.dashboard_page import DashboardPage
 from tests.selenium_tests.utils.domain_factory import generate_domain_file
+
+pytestmark = pytest.mark.order(10)
 
 THIS_DIR = os.path.dirname(__file__)
 

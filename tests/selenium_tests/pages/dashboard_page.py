@@ -1,11 +1,13 @@
+import time
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from tests.selenium_tests.pages.base_page import BasePage
 from tests.selenium_tests.pages.bulk_upload_modal import BulkUploadModal
 #from pages.single_domain_modal import SingleDomainModal
-from tests.api_tests.Aux_Library import BASE_URL
+#from tests.api_tests.Aux_Library import BASE_URL
 
 class DashboardPage(BasePage):
-    URL = f"{BASE_URL}/dashboard"
+    PATH = f"/dashboard"
     # Locators:
     welcome_message = (By.ID, "greeting")
     add_domain_button = (By.ID, "openAddDomain")
@@ -26,8 +28,9 @@ class DashboardPage(BasePage):
     #     self.click(self.add_domain_button)
     #     from tests.selenium_tests.pages.single_domain_modal import SingleDomainModal
     #     return SingleDomainModal(self.driver)
-    
+
     def logout(self):
+        time.sleep(0.5)
         self.click(locator=self.logout_button)
 
     def scan_now(self):

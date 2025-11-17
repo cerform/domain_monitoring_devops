@@ -1,3 +1,4 @@
+import os
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -22,5 +23,9 @@ def driver():
     yield driver 
     # Quit when done
     driver.quit()   
+
+@pytest.fixture
+def base_url():
+    return os.getenv("BASE_URL", "http://localhost:8080")
 
 

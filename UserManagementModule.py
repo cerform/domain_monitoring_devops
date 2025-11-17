@@ -71,7 +71,7 @@ class UserManager:
             dme.load_user_domains(username)
 
             logger.info(f"{username} registered successfully.")
-            return {"message" : "Registered Successfully"}
+            return {"message" : "Registered Successfully."}
         
         except Exception as e:
             logger.error(f"Unable to register user; Exception: {str(e)}")

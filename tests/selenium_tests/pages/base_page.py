@@ -1,23 +1,27 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from tests.api_tests.Aux_Library import BASE_URL
+from selenium.webdriver.common.action_chains import ActionChains
+#from tests.api_tests.Aux_Library import BASE_URL
 
 class BasePage:
-    URL = f"{BASE_URL}/"
+    PATH = "/"
 
-    def __init__(self, driver):
+    def __init__(self, driver, base_url):
         self.driver = driver
         self.wait = WebDriverWait(driver=self.driver, timeout=5)
-        
+        self.base_url = base_url
+    # Actions:
+    def load(self):
+        self.driver.get(f"{self.base_url}{self.PATH}")
+    
     def get_title(self):
         return self.driver.title
-    
-    def load(self):
-        self.driver.get(self.URL)
-    
+
     def click(self, locator):
-        self.wait.until(EC.element_to_be_clickable(locator)).click()
-    
+        element = self.wait.until(EC.element_to_be_clickable(locator))
+        actions = ActionChains(self.driver)
+        actions.move_to_element(element).click().perform()
+
     def wait_for(self, locator):
         return self.wait.until(EC.visibility_of_element_located(locator=locator))
 

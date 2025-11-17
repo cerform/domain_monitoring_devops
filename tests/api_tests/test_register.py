@@ -141,7 +141,7 @@ def test_register_invalid_password(new_username, password, password_confirmation
 @pytest.mark.order(-1)
 def test_register_successful_registration(new_username):
     # check the registration of fully valid users 
-    expected_response = {"message" : "Registered Successfully"}
+    expected_response = {"message" : "Registered Successfully."}
     # Test 1
     response = check_register_user(username=new_username, password="Qwe12345", 
                                    password_confirmation="Qwe12345")

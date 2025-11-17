@@ -3,6 +3,8 @@ from tests.selenium_tests.pages.login_page import LoginPage
 from tests.selenium_tests.pages.dashboard_page import DashboardPage
 from selenium.webdriver.common.by import By
 
+pytestmark = pytest.mark.order(8)
+
 # --------
 # Positive test: valid login
 # --------
