@@ -1,5 +1,4 @@
 import time
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from tests.selenium_tests.pages.base_page import BasePage
 from tests.selenium_tests.pages.bulk_upload_modal import BulkUploadModal
