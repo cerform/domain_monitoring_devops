@@ -10,11 +10,11 @@ from selenium.webdriver.chrome.options import Options
 @pytest.fixture
 def driver():
     # For headless mode:
-    # options = Options()
+    options = Options()
     # options.add_argument("--headless=new")
-    
+    options.binary_location = "/usr/bin/chromium-browser"
     # Installing Browser:
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     # For headless mode:
     # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     
