@@ -58,39 +58,36 @@ def register():
     if request.method == 'GET':
         return app.send_static_file('register/register.html')
 
+    if request.method == 'GET':
+        return app.send_static_file('register/register.html')
+    
     try:
-        payload = _get_payload()
-
-        username = (payload.get("username") or "").strip()
-        password = payload.get("password") or ""
-        password_confirmation = payload.get("password_confirmation") or ""
-
-        result = user_manager.register_page_add_user(
-            username,
-            password,
-            password_confirmation,
-            domain_engine
-        )
-
-        # test expects:
-        # - invalid username → 400
-        # - existing username → 409
-        # - success → 200
-
-        if "error" in result:
-            error_msg = result["error"].lower()
-
-            if "already" in error_msg:
-                return jsonify(result), 409
-
-            return jsonify(result), 400
-
-        # success
+        # Getting Payload
+        registerInfo = _get_payload()
+        # Extracting username, password and password confirmation
+        username = (registerInfo.get("username") or "").strip()
+        password = registerInfo.get("password") or ""
+        password_confirmation = registerInfo.get("password_confirmation")
+        # Registering username and getting status message
+        register_status = user_manager.register_page_add_user(
+            username, 
+            password, 
+            password_confirmation, 
+            domain_engine)
+        # Return code, if:
+        # 201 - username registered Succesfully
+        # 400 - invalid fields
+        # 409 - username already existing
+        # 500 - internal server error
+        if "error" in register_status:
+            if "Username already taken." in register_status["error"]:
+                return jsonify(register_status), 409
+            return jsonify(register_status), 400
+        # User registered successfully
         session["username"] = username
-        return jsonify(result), 201
-
+        return jsonify(register_status), 201
     except Exception as e:
-        return jsonify({"error": f"User could not be registered: {str(e)}"}), 400
+        return jsonify({"error": f"User could not be registered: {str(e)}"}), 500
 
 
 @app.route('/dashboard', methods=['GET'])
