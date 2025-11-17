@@ -25,6 +25,6 @@ class LoginPage(BasePage):
         self.enter_username(username)
         self.enter_password(password)
         self.click_login()
-    
+
     def move_to_login_page(self):
         self.click(self.register_button)

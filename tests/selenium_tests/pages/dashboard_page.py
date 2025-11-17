@@ -30,6 +30,7 @@ class DashboardPage(BasePage):
     def logout(self):
         time.sleep(0.5)
         self.click(locator=self.logout_button)
+        time.sleep(1)
 
     def scan_now(self):
         self.click(locator=self.scan_now_button)

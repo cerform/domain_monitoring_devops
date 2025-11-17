@@ -8,8 +8,8 @@ pytestmark = pytest.mark.order(8)
 # --------
 # Positive test: valid login
 # --------
-def test_login_valid(driver):
-    login_page = LoginPage(driver)
+def test_login_valid(driver, base_url):
+    login_page = LoginPage(driver, base_url)
 
     # Go to login page
     login_page.load()
@@ -33,8 +33,8 @@ def test_login_valid(driver):
         ("", ""),
     ],
 )
-def test_login_invalid(driver, username, password):
-    login_page = LoginPage(driver)
+def test_login_invalid(driver, base_url, username, password):
+    login_page = LoginPage(driver, base_url)
 
     login_page.load()
     login_page.login(username, password)
@@ -47,7 +47,7 @@ def test_login_invalid(driver, username, password):
 
     # Check for error message visibility and content
     assert login_page.get_text(error_locator) == "Login failed"
-    assert login_page.is_visible(error_locator)
+    assert login_page.is_visible(error_locator) == True
 
     # Extra safety: user should *not* be on dashboard
     assert "dashboard" not in driver.title.lower()

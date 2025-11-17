@@ -111,5 +111,4 @@ def test_valid_registration(driver, base_url, clean_user, username, password,
     # Logging Out
     dashboard.logout()
     # Driver Redirected to Login
-    time.sleep(1)
     assert dashboard.get_title() == "Login"
