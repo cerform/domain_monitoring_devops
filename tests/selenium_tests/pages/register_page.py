@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from tests.selenium_tests.pages.base_page import BasePage
-#from tests.api_tests.Aux_Library import BASE_URL
+
 
 class RegisterPage(BasePage):
     PATH = f"/register"

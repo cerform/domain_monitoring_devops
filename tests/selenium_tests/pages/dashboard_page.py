@@ -3,7 +3,6 @@ from selenium.webdriver.common.by import By
 from tests.selenium_tests.pages.base_page import BasePage
 from tests.selenium_tests.pages.bulk_upload_modal import BulkUploadModal
 #from pages.single_domain_modal import SingleDomainModal
-#from tests.api_tests.Aux_Library import BASE_URL
 
 class DashboardPage(BasePage):
     PATH = f"/dashboard"

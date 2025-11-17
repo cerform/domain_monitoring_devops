@@ -1,7 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-#from tests.api_tests.Aux_Library import BASE_URL
+
 
 class BasePage:
     PATH = "/"
