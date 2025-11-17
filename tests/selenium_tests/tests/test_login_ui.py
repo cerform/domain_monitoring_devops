@@ -18,7 +18,7 @@ def test_login_valid(driver):
     login_page.login("john_doe", "password")
 
     # Assert by title
-    assert "dashboard" in login_page.get_title()
+    assert "Dashboard" in login_page.get_title()
 
 # --------
 # Negative tests: invalid login
