@@ -2,6 +2,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
+from selenium.webdriver.chrome.service import Service
 
 @pytest.fixture
 def driver():
@@ -10,10 +11,9 @@ def driver():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    driver = webdriver.Chrome(options=options)
+    service = Service("/usr/bin/chromedriver")
 
-    time.sleep(1)
-
+    driver = webdriver.Chrome(service=service, options=options)
     yield driver
     driver.quit()
 
