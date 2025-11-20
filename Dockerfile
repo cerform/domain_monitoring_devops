@@ -15,7 +15,7 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearm
 RUN apt-get update && apt-get install -y --no-install-recommends \
         google-chrome-stable \
         unzip \
-        libnss3 libgdk-pixbuf2.0-0 libxss1 libasound2 \
+        libnss3 libgdk-pixbuf-xlib-2.0-0 libxss1 libasound2 \
         libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 \
         libxdamage1 libxfixes3 libxrandr2 libgbm1 \
     && rm -rf /var/lib/apt/lists/*
